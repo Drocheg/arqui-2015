@@ -1,0 +1,15 @@
+FD	Target
+
+0	Keyboard
+1	Video
+2	Sound
+3	Formatted video?
+
+
+Archivo de boot (image.bin)
+---------------------------------------------------------------------------------------------
+|	Kernel.bin	|	int	|	int	|	UserLand.bin	|	[int]	|	[*.bin]	|	[int...]	|
+---------------------------------------------------------------------------------------------
+					||		||							  ||			||
+					\/		\/							  \/			\/
+				# modules	module size				module size		module
