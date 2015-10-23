@@ -6,7 +6,8 @@ sampleCodeModule:
 	cd SampleCodeModule; make
 
 sampleDataModule:
-	printf "Hellooooooo? This thing on?" >> SampleDataModule.bin && dd if=/dev/zero bs=1 count=1 >> SampleDataModule.bin
+	rm SampleDataModule.bin	
+	printf "Haider!" >> SampleDataModule.bin && dd if=/dev/zero bs=1 count=1 >> SampleDataModule.bin
 
 clean:
 	cd SampleCodeModule; make clean
