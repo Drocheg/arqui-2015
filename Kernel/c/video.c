@@ -17,10 +17,19 @@ void ncPrint(const char * string)
 		ncPrintChar(string[i]);
 }
 
+void ncPrintln(const char * string) {
+	ncPrint(string);
+	ncNewline();
+}
+
 void ncPrintChar(char character)
 {
-	*currentVideo = character;
-	currentVideo += 2;
+	if(character == '\n')
+		ncNewline();
+	else {
+		*currentVideo = character;
+		currentVideo += 2;
+	}
 }
 
 void ncPrintColorChar(char character, char color)

@@ -1,4 +1,7 @@
-global syscallReceiver
+GLOBAL syscallReceiver
+EXTERN syscallHandler
+
+section .text
 
 syscallReceiver:
 	;64-bit stack frame
