@@ -51,8 +51,10 @@ int main()
 {	
 	ncClear();
 	ncPrintln("Welcome to the kernel!");
+	ncPrintDec(getPressedKey());
+	ncNewline();
 	while(1) {
-		if(isKeyPressed()) {
+		if(isNewKeyPressed()) {
 			ncPrintDec(getPressedKey());
 		}
 	}

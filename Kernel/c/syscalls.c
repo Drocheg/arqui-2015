@@ -11,7 +11,7 @@ uint64_t syscallHandler(uint64_t id, uint64_t p1, uint64_t p2, uint64_t p3, uint
 		break;
 
 		case READ:
-			result = fread(p1, p2, p3);
+			result = fread(p1, (char *)p2, p3);
 		break;
 
 		case EXIT:
