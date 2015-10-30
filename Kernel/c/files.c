@@ -33,7 +33,32 @@ uint64_t fwrite(uint64_t fd, char *buffer, uint64_t maxBytes) {
 }
 
 uint64_t fread(uint64_t fd, char *buffer, uint64_t maxBytes) {
-	fwrite(STDERR, "FREAD not implemented yet, lel", 50);
+	int result = 0;
+	if(fd < MIN_FD || fd > MAX_FD) return -1;
+	int i;
+	switch(fd) {
+		case STDOUT:
+			fwrite(STDERR, "Can't read STDOUT.", 24);
+			return 0;
+			break;
+		case STDERR:
+			fwrite(STDERR, "Can't read STDERR.", 24);
+			return 0;
+			break;
+		case KEYBOARD:
+			result = 0;
+			for(i = 0; //buffer no vacio
+						 && i < maxBytes; i++) {
+				buffer[i]= //leerBufferTeclado.
+				result++;
+			}
+			break;
+		case SPEAKER:
+			ncPrint("Speaker not implemented yet.");
+			break;
+	}
+	return result;
+
 	return getPressedKey();
 	return -1;
 }
