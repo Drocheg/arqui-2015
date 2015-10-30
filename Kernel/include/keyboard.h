@@ -3,8 +3,10 @@
 
 #include <stdint.h>
 
-uint64_t getPressedKey();
+uint64_t bufferIsEmpty();
 
-uint64_t isNewKeyPressed();
+uint64_t bufferIsFull();
+
+uint64_t getPressedKey();
 
 #endif
