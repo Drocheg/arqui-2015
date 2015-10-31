@@ -7,4 +7,6 @@ void IRQ_handler(int irq);
 
 void keyboardInt();
 
+void testInt0();
+
 #endif

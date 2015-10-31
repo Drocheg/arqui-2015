@@ -22,3 +22,7 @@ void keyboardInt() {
 	if(bufferIsFull()) return;
 	keyboardBuffer[keyboardBufferIndex++] = portRead(0x60);
 }
+
+void testInt0() {
+	ncPrintln("\nINT 0 RECEIVED");
+}

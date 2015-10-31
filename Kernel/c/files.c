@@ -47,9 +47,8 @@ uint64_t fread(uint64_t fd, char *buffer, uint64_t maxBytes) {
 			break;
 		case KEYBOARD:
 			result = 0;
-			for(i = 0; //buffer no vacio
-						 && i < maxBytes; i++) {
-				buffer[i]= //leerBufferTeclado.
+			for(i = 0; !bufferIsEmpty() && i < maxBytes; i++) {
+				buffer[i]= getPressedKey();
 				result++;
 			}
 			break;

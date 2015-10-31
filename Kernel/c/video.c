@@ -39,8 +39,22 @@ void ncPrintChar(char character)
 
 void ncPrintColorChar(char character, char color)
 {
-	*(currentVideo++) = character;
-	*(currentVideo++) = color;
+	if(character == '\n') {
+		do 
+		{
+			*(currentVideo++) = ' ';
+			*(currentVideo++) = color;
+		}
+		while((uint64_t)(currentVideo - video) % (width * 2) != 0);
+	}
+	else {
+		*(currentVideo++) = character;
+		*(currentVideo++) = color;
+	}
+	if(currentVideo >= endVideo) {
+		ncClear();
+		currentVideo = video;
+	}
 }
 
 void ncNewline()

@@ -1,0 +1,14 @@
+0	2	Offset low bits (0..15)
+2	2	Selector (Code segment selector)
+4	1	Zero
+5	1	Type and Attributes (same as before)
+6	2	Offset middle bits (16..31)
+8	4	Offset high bits (32..63)
+12	4	Zero
+
+IDT descriptor on 64 bits
+
+ 0		1		2		3		4		5		6		7	   8	  9		10		11	   12	  13	 14		15	  16
++-------+-------+-------+-------+-------+-------+-------+------+------+------+------+------+------+------+------+------+
+|	Offset low  |	Selector    |   0   |  Type | Offset middle| 		Offset high		   |   0  |   0  |   0  |   0  |
++-------+-------+-------+-------+-------+-------+-------+------+------+------+------+------+------+------+------+------+
