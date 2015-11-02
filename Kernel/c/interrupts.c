@@ -8,11 +8,12 @@ extern int keyboardBufferIndex;
 //Array de punteros a funcion
 
 void EOI();	//File-specific functions
+void sayHello();
 
 void IRQ_handler(int irq) {
 	switch(irq) {
 		case 0:	//Timer tick
-			testInt0();
+			sayHello();
 			break;
 		case 1:	//Keyboard
 			keyboardInt();
@@ -31,10 +32,6 @@ void keyboardInt() {
 	keyboardBuffer[keyboardBufferIndex++] = portRead(0x60);
 }
 
-void testInt0() {
+void sayHello() {
 	ncPrintln("\nINT 0 RECEIVED");
-}
-
-void testInt1() {
-	ncPrintln("\nINT 1 RECEIVED");
 }

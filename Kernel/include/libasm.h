@@ -5,4 +5,8 @@
 
 void _sidt(uint64_t *dest);
 
+void _cli();
+
+void _sti();
+
 #endif

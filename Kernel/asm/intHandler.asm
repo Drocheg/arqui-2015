@@ -1,6 +1,7 @@
 EXTERN IRQ_handler
 
 GLOBAL irq0ASM
+GLOBAL testInt0			;TODO delete
 
 %macro irqHandlerMaster 1
 	;Stack frame
@@ -30,3 +31,6 @@ GLOBAL irq0ASM
 
 irq0ASM:
 	irqHandlerMaster 0
+
+testInt0:
+	int 0

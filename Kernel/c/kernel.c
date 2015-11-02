@@ -61,6 +61,7 @@ int main()
 	_sidt(&idtMem);
 	ncPrintBin(idtMem);
 	ncNewline();*/
+	_sti();
 	masterPICmask((uint8_t)0);	//Habilitar todoooo
 	setInterrupt(0, (uint64_t)&irq0ASM);
 	ncNewline();
@@ -71,6 +72,8 @@ int main()
 	for(i = 0; i < sizeof(copy); i++) {
 		ncPrintBin((uint8_t)copy[i]);
 	}
+	ncNewline();
+	testInt0();
 
 	/*uint8_t i;
 	for(i = 0; i < IDT_SIZE; i++) {

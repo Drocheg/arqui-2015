@@ -7,8 +7,8 @@ GLOBAL inb
 GLOBAL inw
 GLOBAL ind
 GLOBAL int80
-GLOBAL disableInterrupts
-GLOBAL enableInterrupts
+GLOBAL _cli
+GLOBAL _sti
 
 section .text
 	
@@ -87,12 +87,12 @@ int80:
 	int 80h
 	ret
 
-; void disableInterrupts()
-disableInterrupts:
+; void _cli()
+_cli:
 	cli
 	ret
 
-; void enableInterrupts()
-enableInterrupts:
+; void _sti()
+_sti:
 	sti
 	ret
