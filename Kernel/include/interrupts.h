@@ -9,4 +9,6 @@ void keyboardInt();
 
 void testInt0();
 
+void testInt1();
+
 #endif

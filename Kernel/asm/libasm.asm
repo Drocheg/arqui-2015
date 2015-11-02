@@ -1,4 +1,14 @@
 GLOBAL cpuVendor
+GLOBAL _sidt
+GLOBAL outb
+GLOBAL outw
+GLOBAL outd
+GLOBAL inb
+GLOBAL inw
+GLOBAL ind
+GLOBAL int80
+GLOBAL disableInterrupts
+GLOBAL enableInterrupts
 
 section .text
 	
@@ -26,6 +36,12 @@ cpuVendor:
 	pop rbp
 	ret
 
+_sidt:
+	sidt [rdi]
+	mov rax, [rdi]
+	and rax, 0xFFFFFFFFFFFF0000
+	mov [rdi], rax
+	ret
 
 ; void outb(uint16_t port, uint8_t value)
 outb:

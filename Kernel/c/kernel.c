@@ -8,6 +8,8 @@
 #include <idt.h>
 #include <interrupts.h>
 #include <pic.h>
+#include <libasm.h>
+#include <intHandler.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -54,8 +56,13 @@ int main()
 {	
 	ncClear();
 	ncPrintln("Welcome to the kernel!");
+	/*ncPrint("IDT is at 0x");
+	uint64_t idtMem;
+	_sidt(&idtMem);
+	ncPrintBin(idtMem);
+	ncNewline();*/
 	masterPICmask((uint8_t)0);	//Habilitar todoooo
-	setInterrupt(0, (uint64_t)&testInt0);
+	setInterrupt(0, (uint64_t)&irq0ASM);
 	ncNewline();
 	char copy[32];
 	memcpy(copy, (char *)0, 32);
