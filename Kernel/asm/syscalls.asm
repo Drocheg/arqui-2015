@@ -1,5 +1,5 @@
 GLOBAL syscallReceiver
-EXTERN syscallHandler
+EXTERN sysCall
 
 section .text
 
@@ -12,7 +12,7 @@ syscallReceiver:
 	push r13
 	push r15
 
-	call syscallHandler
+	call sysCall
 
 	pop r15
 	pop r13

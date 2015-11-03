@@ -1,8 +1,13 @@
 include Makefile.inc
 
 SAMPLE_DATA=0001-sampleDataModule.bin
+SOURCES=$(wildcard c/*.c)
+OBJECTS=$(SOURCES:.c=.o)
 
-all: sampleCodeModule sampleDataModule
+all: $(OBJECTS) sampleCodeModule sampleDataModule
+
+%.o: %.c
+	$(GCC) $(GCCFLAGS) -I./include -c $< -o $@
 
 sampleCodeModule:
 	cd SampleCodeModule; make
@@ -12,7 +17,7 @@ sampleDataModule:
 
 clean:
 	cd SampleCodeModule; make clean
-	rm -rf *.bin
+	rm -rf *.bin c/*.o
 
 
 .PHONY: sampleCodeModule all clean

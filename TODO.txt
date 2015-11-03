@@ -1,4 +1,7 @@
 TODO
+-Implementar funciones básicas en Userland:
+	-printf, scanf, strcmp, etc.
+
 -Interrupciones:
 	-Hacer que funcione la IDT
 	-Llenar IDT con interrupciones

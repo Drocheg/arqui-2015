@@ -50,8 +50,8 @@ void setInterrupt(uint8_t index, /*uint8_t selector,*/ uint64_t offset/*, uint8_
 	d.offset_middle = offset & 0xFFFF0000;
 	d.offset_high = offset >> 32;
 	
-	d.type = 0x0E;			//00001110
-	d.selector = 0x08;		//00001000
+	d.type = (uint8_t)0xE;			//00001110
+	d.selector = (uint16_t)0x8;		//00001000
 	d.zero1 = 0;
 	d.zero2 = 0;
 
