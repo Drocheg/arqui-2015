@@ -5,7 +5,7 @@
 
 typedef struct
 {
-	char *name;
+	char *name; 
 	void (*function)(void);
 } command;
 
