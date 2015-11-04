@@ -1,8 +1,8 @@
 #ifndef INTHANDLER_H
 #define INTHANDLER_H
 
-void irq0ASM();
+void _int0();
 
-void testInt0();
+void _int1();
 
 #endif

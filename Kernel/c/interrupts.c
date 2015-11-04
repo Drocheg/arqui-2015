@@ -8,7 +8,6 @@ extern int keyboardBufferIndex;
 //Array de punteros a funcion
 
 void EOI();	//File-specific functions
-void sayHello();
 
 void IRQ_handler(int irq) {
 	switch(irq) {
@@ -38,5 +37,5 @@ void keyboardInt() {
 }
 
 void sayHello() {
-	ncPrintln("\nINT 0 RECEIVED");
+	ncPrintln("\nInterrupt received");
 }

@@ -56,12 +56,18 @@ int main()
 {	
 	ncClear();
 	ncPrintln("Welcome to the kernel!");
+	
 	_sti();
 	masterPICmask((uint8_t)0);	//Habilitar todoooo
-	for(int i = 0; i < IDT_SIZE; i++) {
-		setInterrupt(i, (uint64_t)&irq0ASM);
-	}
-	testInt0();
+	setInterrupt(0, (uint64_t)&sayHello);
+	_int0();
+	while(1);
+
+	/*for(int i = 0; i < IDT_SIZE; i++) {
+		setInterrupt(i, (uint64_t)&_int0);
+	}*/
+	
+	
 	/*ncNewline();
 	char copy[32];
 	memcpy(copy, (char *)0, 32);
