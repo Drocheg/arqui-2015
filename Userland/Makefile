@@ -7,7 +7,7 @@ OBJECTS=$(SOURCES:.c=.o)
 all: $(OBJECTS) sampleCodeModule sampleDataModule
 
 %.o: %.c
-	$(GCC) $(GCCFLAGS) -I./include -c $< -o $@
+	$(GCC) $(GCCFLAGS) -I./include -I../Common/include -c $< -o $@
 
 sampleCodeModule:
 	cd SampleCodeModule; make

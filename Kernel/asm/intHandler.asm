@@ -28,9 +28,3 @@ GLOBAL testInt0			;TODO delete
 	pop rbp
 	iretq
 %endmacro
-
-irq0ASM:
-	irqHandlerMaster 0
-
-testInt0:
-	int 0

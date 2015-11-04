@@ -18,6 +18,11 @@ void IRQ_handler(int irq) {
 		case 1:	//Keyboard
 			keyboardInt();
 			break;
+		default:
+			ncPrint("IRQ #");
+			ncPrintDec(irq);
+			ncPrintln(" received");
+			break;
 	}
 	EOI();
 	return;

@@ -1,4 +1,5 @@
 #include <terminal.h>
+#include <stdlib.h>
 #include "../../Kernel/include/syscalls.h"
 #include "../../Kernel/include/files.h"
 
@@ -24,7 +25,7 @@ void runTerminal() {
 		sysCall(READ, KEYBOARD, (uint64_t)buffer, sizeof(buffer), 0);	//Bloqueante
 		int i;
 		for(i = 0; i < sizeof(commands)/sizeof(command); i++) {
-			if(1 == 1 /*TODO implement strcmp here!*/) {
+			if(streql(toLowerStr(buffer), commands[i].name)) {
 				commands[i].function();
 			}
 		}

@@ -56,15 +56,13 @@ int main()
 {	
 	ncClear();
 	ncPrintln("Welcome to the kernel!");
-	/*ncPrint("IDT is at 0x");
-	uint64_t idtMem;
-	_sidt(&idtMem);
-	ncPrintBin(idtMem);
-	ncNewline();*/
 	_sti();
 	masterPICmask((uint8_t)0);	//Habilitar todoooo
-	setInterrupt(0, (uint64_t)&irq0ASM);
-	ncNewline();
+	for(int i = 0; i < IDT_SIZE; i++) {
+		setInterrupt(i, (uint64_t)&irq0ASM);
+	}
+	testInt0();
+	/*ncNewline();
 	char copy[32];
 	memcpy(copy, (char *)0, 32);
 	ncPrint("\nIDT[0] = \n");
@@ -73,7 +71,7 @@ int main()
 		ncPrintBin((uint8_t)copy[i]);
 	}
 	ncNewline();
-	testInt0();
+	testInt0();*/
 
 	/*uint8_t i;
 	for(i = 0; i < IDT_SIZE; i++) {
