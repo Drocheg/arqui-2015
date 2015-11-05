@@ -9,4 +9,6 @@ uint64_t bufferIsFull();
 
 uint64_t getPressedKey();
 
+char getCharFromScanCode(uint8_t scanCode);
+
 #endif

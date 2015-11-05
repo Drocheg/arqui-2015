@@ -3,13 +3,17 @@
 #include <ports.h>
 #include <video.h>
 
+
+
 extern char *keyboardBuffer;
 extern int keyboardBufferIndex;
 //Array de punteros a funcion
 
-void EOI();	//File-specific functions
-
 void IRQ_handler(int irq) {
+	ncPrint("IRQ #");
+	ncPrintDec(irq);
+
+
 	switch(irq) {
 		case 0:	//Timer tick
 			sayHello();
@@ -23,19 +27,23 @@ void IRQ_handler(int irq) {
 			ncPrintln(" received");
 			break;
 	}
-	EOI();
 	return;
 }
 
-void EOI() {
- 	portWrite(0x20, 0x20);
-}
-
 void keyboardInt() {
+	
 	if(bufferIsFull()) return;
+	ncPrintln("Keyboard interrupt received.");
 	keyboardBuffer[keyboardBufferIndex++] = portRead(0x60);
+  	/*if(portRead(0x60)!='\n'){
+		printScanCode(portRead(0x60)); //TODO getScanCode
+	}*/
 }
 
 void sayHello() {
 	ncPrintln("\nInterrupt received");
+}
+
+char getCharFromScanCode(uint8_t scanCode) {
+	return -1;	//TODO
 }

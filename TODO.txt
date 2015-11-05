@@ -27,3 +27,5 @@ TODO
 -Manual
 
 -Informe
+
+QEMU con parámetro -soundhw pcspk

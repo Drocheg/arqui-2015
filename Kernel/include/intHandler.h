@@ -3,6 +3,8 @@
 
 void _int0();
 
-void _int1();
+void _irq1();
+
+void _irq0();
 
 #endif

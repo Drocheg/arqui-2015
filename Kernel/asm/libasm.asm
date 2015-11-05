@@ -9,6 +9,7 @@ GLOBAL ind
 GLOBAL int80
 GLOBAL _cli
 GLOBAL _sti
+GLOBAL _halt
 
 section .text
 	
@@ -96,3 +97,8 @@ _cli:
 _sti:
 	sti
 	ret
+
+;void _halt()
+_halt:
+    hlt
+    ret

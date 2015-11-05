@@ -1,6 +1,7 @@
 #include <files.h>
 #include <video.h>
 #include <keyboard.h>
+#include <libasm.h>
 
 uint64_t fwrite(uint64_t fd, char *buffer, uint64_t maxBytes) {
 	int result = 0;
@@ -21,7 +22,7 @@ uint64_t fwrite(uint64_t fd, char *buffer, uint64_t maxBytes) {
 				result++;
 			}
 			break;
-		case KEYBOARD:
+		case STDIN:
 			fwrite(STDERR, "Can't write to keyboard.", 24);
 			return 0;
 			break;
@@ -45,19 +46,21 @@ uint64_t fread(uint64_t fd, char *buffer, uint64_t maxBytes) {
 			fwrite(STDERR, "Can't read STDERR.", 24);
 			return 0;
 			break;
-		case KEYBOARD:
+		case STDIN:
 			result = 0;
-			for(i = 0; !bufferIsEmpty() && i < maxBytes; i++) {
-				buffer[i]= getPressedKey();
-				result++;
-			}
-			break;
+	  		int flag = 1;
+	  		do{
+				for(i = 0; !bufferIsEmpty() && i < maxBytes && flag; i++) {
+					buffer[i]= getPressedKey();
+				  	if(buffer[i]=='\n') flag=0;	//TODO process scanCode
+					result++;
+				}
+			     	_halt();
+			}while(flag && result<maxBytes);
+	  		break;
 		case SPEAKER:
 			ncPrint("Speaker not implemented yet.");
 			break;
 	}
 	return result;
-
-	return getPressedKey();
-	return -1;
 }

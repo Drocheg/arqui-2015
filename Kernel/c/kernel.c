@@ -56,37 +56,18 @@ int main()
 {	
 	ncClear();
 	ncPrintln("Welcome to the kernel!");
+	/*
+	ncPrintln(">");
+	*/
 	
-	_sti();
-	masterPICmask((uint8_t)0);	//Habilitar todoooo
-	setInterrupt(0, (uint64_t)&sayHello);
-	_int0();
-	while(1);
-
-	/*for(int i = 0; i < IDT_SIZE; i++) {
-		setInterrupt(i, (uint64_t)&_int0);
-	}*/
-	
-	
-	/*ncNewline();
-	char copy[32];
-	memcpy(copy, (char *)0, 32);
-	ncPrint("\nIDT[0] = \n");
-	int i;
-	for(i = 0; i < sizeof(copy); i++) {
-		ncPrintBin((uint8_t)copy[i]);
+	for (int i = 0; i < IDT_SIZE; ++i)
+	{
+		setInterrupt(i, (uint64_t)&_irq0);
 	}
-	ncNewline();
-	testInt0();*/
-
-	/*uint8_t i;
-	for(i = 0; i < IDT_SIZE; i++) {
-		setInterrupt(i, (uint64_t)&testInt0);
-	}*/
-	/*while(1) {
-		if(!bufferIsEmpty()) {
-			ncPrintDec(getPressedKey());
-		}
-	}*/
+	//setInterrupt(1, (uint64_t)&_irq1);
+	masterPICmask((uint8_t)0x0);	//Habilitar todoooo
+	_sti();
+	//setInterrupt(8, (uint64_t)&_int0);
+	while(1);
 	return 0;
 }

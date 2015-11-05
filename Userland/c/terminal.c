@@ -1,7 +1,7 @@
 #include <terminal.h>
 #include <stdlib.h>
-#include "../../Kernel/include/syscalls.h"
-#include "../../Kernel/include/files.h"
+#include <syscalls.h>
+#include <commonDefs.h>
 
 typedef struct
 {
@@ -22,7 +22,7 @@ static command commands[] = {
 void runTerminal() {
 	char buffer[100];
 	while(!done) {
-		sysCall(READ, KEYBOARD, (uint64_t)buffer, sizeof(buffer), 0);	//Bloqueante
+		sysCall(SYSREAD, STDIN, (uint64_t)buffer, sizeof(buffer), 0);	//Bloqueante
 		int i;
 		for(i = 0; i < sizeof(commands)/sizeof(command); i++) {
 			if(streql(toLowerStr(buffer), commands[i].name)) {
@@ -38,5 +38,5 @@ void exit() {
 
 void help() {
 	char *msg = "Welcome to help!";
-	sysCall(WRITE, STDOUT, (uint64_t)msg, sizeof(msg), 0);	//TODO change with printf
+	sysCall(SYSWRITE, STDOUT, (uint64_t)msg, sizeof(msg), 0);	//TODO change with printf
 }

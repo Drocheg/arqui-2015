@@ -9,4 +9,6 @@ void _cli();
 
 void _sti();
 
+void _halt();
+
 #endif
