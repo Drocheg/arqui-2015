@@ -2,33 +2,36 @@
 #include <video.h>
 #include <libasm.h>
 
+#include <keyboard.h>
+
 void intHandler(uint8_t id) {
-	ncPrint(" Interrupt #");
-	ncPrintDec(id);
 	if(id >= 32 && id <= 47) {	//IRQ hardware interrupt
 		IRQ_handler(id-32);
-		masterPICmask(0xFD);
 	}
 }
 
 void IRQ_handler(uint8_t irq) {
-	ncPrint(" IRQ #");
-	ncPrintDec(irq);
-	outb(0x20, 0x20);	//EOI
-	/*
+	uint8_t key;	//for keyboard, can't declare in SWITCH for some reason
 	switch(irq) {
 		case 0:	//Timer tick
-			sayHello();
+			//ncPrint("t");
 			break;
 		case 1:	//Keyboard
-			keyboardInt();
+			//If we don't read from the keyboard buffer, it doesn't fire interrupts again!
+			key = inb(0x60);
+			/*ncPrintHex(key);
+			ncPrintChar(' ');*/
+			push(key);
+			if(key == 28) {
+				while(!bufferIsEmpty()) {
+					key = pop();
+					ncPrintHex(key);
+					ncPrintChar(' ');
+				}
+			}
 			break;
 		default:
-			ncPrint("IRQ #");
-			ncPrintDec(irq);
-			ncPrintln(" received");
+			ncPrint("?");
 			break;
 	}
-	return;
-	*/
 }

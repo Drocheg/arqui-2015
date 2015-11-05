@@ -51,7 +51,7 @@ void * initializeKernelBinary()
 int main()
 {	
 	ncClear();
-	ncPrint("Welcome to the kernel!");
+	//ncPrint("Welcome to the kernel!");
 		
 		setInterrupt(0x0, (uint64_t)&_int0);
 		setInterrupt(0x1, (uint64_t)&_int1);
