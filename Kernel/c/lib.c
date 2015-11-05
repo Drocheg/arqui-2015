@@ -1,4 +1,44 @@
-#include <stdint.h>
+#include <lib.h>
+#include <fileDescriptors.h>
+#include <keyboard.h>
+
+int32_t sys_read(uint8_t fd, char *buff, uint32_t maxBytes) {
+	int result = 0;
+	if(fd < MIN_FD || fd > MAX_FD) return -1;
+	int i;
+	switch(fd) {
+		case STDOUT:
+			sys_write(STDERR, "Can't read STDOUT.", 24);
+			return 0;
+			break;
+		case STDERR:
+			sys_write(STDERR, "Can't read STDERR.", 24);
+			return 0;
+			break;
+		case KEYBOARD:
+			result = 0;
+	  		int done = 0;
+	  		do {
+				for(i = 0; !bufferIsEmpty() && i < maxBytes && !done; i++) {
+					buff[i]= pollKey();
+				  	if(buff[i] == 28/*ENTER*/) {
+				  		done = 1;
+				  	}
+					result++;
+				}
+			     	_halt();
+			}while(!done && result < maxBytes);
+	  		break;
+		case SPEAKER:
+			ncPrint("Speaker not implemented yet.");
+			break;
+	}
+	return result;
+}
+
+int32_t sys_write(uint8_t fd, char *buff, uint32_t maxBytes) {
+
+}
 
 void * memset(void * destination, int32_t c, uint64_t length)
 {

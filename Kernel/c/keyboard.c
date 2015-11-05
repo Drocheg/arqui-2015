@@ -1,26 +1,32 @@
 #include <keyboard.h>
 #include <libasm.h>
 
-uint8_t keyboardBuffer[KEYBOARD_BUFF_SIZE] = {0};
-int keyboardBufferIndex = -1;
+static uint8_t queue[KEYBOARD_BUFF_SIZE] = {0};
+static int readIndex = -1, writeIndex = 0;
 
+//TODO consider cases when one index is around the border from the other (i.e. 0 vs 255)
 uint8_t bufferIsEmpty() {
-	return keyboardBufferIndex < 0;
+	return readIndex == writeIndex-1;
 }
 
 uint8_t bufferIsFull() {
-	return keyboardBufferIndex >= KEYBOARD_BUFF_SIZE-1;
+	return readIndex == writeIndex;
 }
 
-int8_t pop() {
-	if(bufferIsEmpty()) return -1;
-	uint8_t result = keyboardBuffer[keyboardBufferIndex--];
-	return result;
+uint8_t pollKey() {
+	if(bufferIsEmpty()) return 0;
+	if(++readIndex >= KEYBOARD_BUFF_SIZE) {
+		readIndex == 0;
+	}
+	return queue[readIndex];
 }
 
-int8_t push(uint8_t data) {
-	if(bufferIsFull()) return -1;
-	keyboardBuffer[++keyboardBufferIndex] = data;
+uint8_t offerKey(uint8_t data) {
+	if(bufferIsFull()) return 0;
+	if(writeIndex == KEYBOARD_BUFF_SIZE) {
+		writeIndex = 0;
+	}
+	queue[writeIndex++] = data;
 	return 1;
 }
 

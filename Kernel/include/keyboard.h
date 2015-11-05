@@ -9,9 +9,9 @@ uint8_t bufferIsEmpty();
 
 uint8_t bufferIsFull();
 
-int8_t pop();
+uint8_t pollKey();
 
-int8_t push(uint8_t data);
+uint8_t offerKey(uint8_t data);
 
 char getCharFromScanCode(uint8_t scanCode);
 

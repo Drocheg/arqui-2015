@@ -22,6 +22,17 @@ void ncPrintln(const char * string) {
 	ncNewline();
 }
 
+void ncPrintColor(const char * string, char color) {
+	int i;
+	for (i = 0; string[i] != 0; i++)
+		ncPrintColorChar(color, string[i]);
+}
+
+void ncPrintlnColor(const char * string, char color) {
+	ncPrintColor(string, color);
+	ncNewline();	//\n without coloring
+}
+
 void ncPrintChar(char character)
 {
 	if(character == '\n')
