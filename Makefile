@@ -1,8 +1,11 @@
 
-all:  bootloader kernel userland image
+all: bootloader common kernel userland image
 
 bootloader:
-	cd Bootloader; make all
+	clear; clear; cd Bootloader; make all
+
+common:
+	cd Common; make all
 
 kernel:
 	cd Kernel; make all
@@ -15,6 +18,7 @@ image: kernel bootloader userland
 
 clean:
 	cd Bootloader; make clean
+	cd Common; make clean
 	cd Image; make clean
 	cd Kernel; make clean
 	cd Userland; make clean
