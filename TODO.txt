@@ -1,0 +1,31 @@
+TODO
+-Implementar funciones básicas en Userland:
+	-printf, scanf, strcmp, etc.
+
+-Interrupciones:
+	-Hacer que funcione la IDT
+	-Llenar IDT con interrupciones
+	-Empieza en la dirección 0
+	-IDT --> Handler --> Rutinas de atención
+
+-Terminal:
+	-JALP
+	-Piano
+	-Play song de un módulo
+	-Extra? (Ej. exit)
+	-Lee del teclado e imprime a pantalla
+
+-Speaker
+	-Hacer todo
+	-Averiguar dirección de hardware del speaker
+	-Frecuencias de las notas
+	-Establecer formato de archivo de sonido (ej. MIDI, frecuencia/duración, 00 = EOF)
+
+-Syscalls:
+	-Llenar
+
+-Manual
+
+-Informe
+
+QEMU con parámetro -soundhw pcspk

@@ -7,6 +7,9 @@
 #include <idt.h>
 #include <libasm.h>
 
+#include <speaker.h>
+#include <terminal.h>
+
 extern uint8_t text;
 extern uint8_t rodata;
 extern uint8_t data;
@@ -61,5 +64,8 @@ int main()
 	masterPICmask(0xFC);	//Keyboard and timer tick
 	//masterPICmask(0xFD);	//Keyboard only
 	_sti();
+
+	runTerminal();
+
 	return 0;
 }

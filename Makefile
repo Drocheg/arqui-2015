@@ -1,5 +1,5 @@
 
-all: bootloader common kernel userland image
+all: bootloader common userland kernel image
 
 bootloader:
 	clear; clear; cd Bootloader; make all

@@ -1,5 +1,41 @@
 #include <stdlib.h>
 
+//Parses the specified value to string, returning the number of digits converted.
+uint32_t intToStr(uint64_t value, char * buffer) {
+	return intToStrBase(value, buffer, 10);
+}
+
+//Parses the specified value to string using the specified base, returning the number of digits converted.
+uint32_t intToStrBase(uint64_t value, char * buffer, uint32_t base) {
+	char *p = buffer;
+	char *p1, *p2;
+	uint32_t digits = 0;
+
+	//Calculate characters for each digit
+	do {
+		uint32_t remainder = value % base;
+		*p++ = (remainder < 10) ? remainder + '0' : remainder + 'A' - 10;
+		digits++;
+	}
+	while (value /= base);
+
+	// Terminate string in buffer.
+	*p = 0;
+
+	//Reverse string in buffer.
+	p1 = buffer;
+	p2 = p - 1;
+	while (p1 < p2) {
+		char tmp = *p1;
+		*p1 = *p2;
+		*p2 = tmp;
+		p1++;
+		p2--;
+	}
+
+	return digits;
+}
+
 uint8_t streql(const char *s1, const char *s2) {
 	while(*s1 != 0 && *s2 != 0) {
 		if(*s1 != *s2) return 0;

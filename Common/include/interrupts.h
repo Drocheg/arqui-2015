@@ -16,6 +16,6 @@ if(int >= 32 && int <= 47) => IRQ hardware interrupt
 
 void _int20();
 void _int21();
-uint32_t _int80(uint32_t syscallID, uint32_t p1, uint32_t p2, uint32_t p3);
+void _int80(uint64_t syscallID, int64_t p1, int64_t p2, int64_t p3);
 
 #endif

@@ -22,7 +22,10 @@ uint8_t pollKey() {
 }
 
 uint8_t offerKey(uint8_t data) {
-	if(bufferIsFull()) return 0;
+	if(bufferIsFull()) {
+		ncPrint("Keyboard buffer full.");	//TODO delete
+		return 0;
+	}
 	if(writeIndex == KEYBOARD_BUFF_SIZE) {
 		writeIndex = 0;
 	}

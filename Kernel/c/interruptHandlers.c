@@ -7,13 +7,18 @@
 
 #include <keyboard.h>
 
-uint32_t int80Handler(uint32_t syscallID, uint32_t p1, uint32_t p2, uint32_t p3) {
+void int80Handler(uint32_t syscallID, uint32_t p1, uint32_t p2, uint32_t p3) {
+	ncPrint("\nINT 80: Syscall #");
+	ncPrintDec(syscallID);
+
+	//TODO NOW make this work properly. Also take a look at interrupts.asm -- no interrupt is ever actually called
+
 	/*
 	TODO call appropriate system function from here. I.E:
 	0) EXIT
-	0) READ
+	1) READ
 	2) WRITE
-	*/
+	
 	switch(syscallID) {
 		case 0:	//Exit
 
@@ -29,7 +34,7 @@ uint32_t int80Handler(uint32_t syscallID, uint32_t p1, uint32_t p2, uint32_t p3)
 			return -1;
 			break;
 	}
-	return 1;
+	*/
 }
 
 void IRQ_handler(uint8_t irq) {

@@ -4,6 +4,8 @@ GLOBAL _int20
 GLOBAL _int21
 GLOBAL _int80
 
+SECTION .text
+
 %macro irqMacro 1
 	;Stack frame
 	push rbp
@@ -51,4 +53,5 @@ _int80:
 	pop rbx
 	pop rsp
 	pop rbp
-	iretq
+	;iretq
+	ret

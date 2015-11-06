@@ -1,6 +1,9 @@
 #include <lib.h>
 #include <fileDescriptors.h>
 #include <keyboard.h>
+#include <libasm.h>
+
+#include <video.h>
 
 int32_t sys_read(uint8_t fd, char *buff, uint32_t maxBytes) {
 	int result = 0;
@@ -26,7 +29,7 @@ int32_t sys_read(uint8_t fd, char *buff, uint32_t maxBytes) {
 				  	}
 					result++;
 				}
-			     	_halt();
+		     	_halt();
 			}while(!done && result < maxBytes);
 	  		break;
 		case SPEAKER:
@@ -37,7 +40,7 @@ int32_t sys_read(uint8_t fd, char *buff, uint32_t maxBytes) {
 }
 
 int32_t sys_write(uint8_t fd, char *buff, uint32_t maxBytes) {
-
+	return 0;
 }
 
 void * memset(void * destination, int32_t c, uint64_t length)

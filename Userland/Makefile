@@ -1,8 +1,10 @@
 include Makefile.inc
 
 SAMPLE_DATA=0001-sampleDataModule.bin
+SOURCES=$(wildcard c/*.c)
+OBJECTS=$(SOURCES:.c=.o)
 
-all: sampleCodeModule sampleDataModule
+all: $(OBJECTS) sampleCodeModule sampleDataModule
 
 sampleCodeModule:
 	cd SampleCodeModule; make
@@ -10,9 +12,11 @@ sampleCodeModule:
 sampleDataModule:
 	printf "This is sample data." >> $(SAMPLE_DATA) && dd if=/dev/zero bs=1 count=1 >> $(SAMPLE_DATA)
 
+%.o: %.c
+	$(GCC) $(GCCFLAGS) -I./include -I../Common/include -c $< -o $@
+
 clean:
 	cd SampleCodeModule; make clean
-	rm -rf *.bin
+	rm -rf c/*.o *.o *.bin
 
-
-.PHONY: sampleCodeModule all clean
+.PHONY: all clean
