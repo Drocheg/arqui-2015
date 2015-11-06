@@ -22,6 +22,14 @@ char getchar() {
 	return result;
 }
 
+void clearScreen() {
+	_int80(SYSCLEAR, 0, 0, 0);
+}
+
+void reboot() {
+	_int80(REBOOT, 0, 0, 0);
+}
+
 void printf(const char *format, ...) {
 	char **arg = (char **) &format;
 	int c;
@@ -41,6 +49,10 @@ void printf(const char *format, ...) {
 					intToStrBase(*((int *) arg++), buf, (c == 'd' ? 10 : 16));
 					p = buf;
 					goto STRING;
+					break;
+
+				case 'c':
+					putchar(*arg++);
 					break;
 
 				case 's':

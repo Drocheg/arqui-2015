@@ -10,6 +10,7 @@ void ncPrintColor(const char * string, char color);
 void ncPrintln(const char * string);
 void ncPrintlnColor(const char * string, char color);
 void ncNewline();
+void ncBackspace();
 void ncPrintDec(uint64_t value);
 void ncPrintHex(uint64_t value);
 void ncPrintBin(uint64_t value);

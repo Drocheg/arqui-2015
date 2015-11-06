@@ -35,8 +35,12 @@ void ncPrintlnColor(const char * string, char color) {
 
 void ncPrintChar(char character)
 {
-	if(character == '\n')
+	if(character == '\n') {
 		ncNewline();
+	}
+	else if(character == '\b')	{
+		ncBackspace();
+	}
 	else {
 		*currentVideo = character;
 		currentVideo += 2;
@@ -74,6 +78,14 @@ void ncNewline()
 		ncPrintChar(' ');
 	}
 	while((uint64_t)(currentVideo - video) % (width * 2) != 0);
+}
+
+void ncBackspace() {
+	if(currentVideo > video) {
+		currentVideo -= 2;		//Goes back if necessary
+	}
+	//*(currentVideo+1) = 0;	//Resets color
+	*currentVideo = 0;		//Clears char
 }
 
 void ncPrintDec(uint64_t value)

@@ -13,6 +13,10 @@ char getchar();
 
 void printf(const char *format, ...);
 
+void clearScreen();
+
+void reboot();
+
 //void scanf(char format, char *buff); Incomplete
 
 #endif

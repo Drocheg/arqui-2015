@@ -31,8 +31,3 @@ uint8_t offerKey(uint8_t data) {
 	queue[writeIndex++] = data;
 	return 1;
 }
-
-//TODO see http://wiki.osdev.org/PS/2_Keyboard#Scan_Code_Sets.2C_Scan_Codes_and_Key_Codes SCAN CODE SET 1
-char getCharFromScanCode(uint8_t scanCode) {
-	return 0;
-}

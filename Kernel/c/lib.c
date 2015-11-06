@@ -10,15 +10,7 @@ int32_t sys_read(uint8_t fd, char *buff, uint32_t maxBytes) {
 	if(fd < MIN_FD || fd > MAX_FD) return -1;
 	int i;
 	switch(fd) {
-		case STDOUT:
-			sys_write(STDERR, "Can't read STDOUT.", 24);
-			return 0;
-			break;
-		case STDERR:
-			sys_write(STDERR, "Can't read STDERR.", 24);
-			return 0;
-			break;
-		case KEYBOARD:
+		case STDIN:
 			result = 0;
 	  		int done = 0;
 	  		do {
@@ -29,9 +21,17 @@ int32_t sys_read(uint8_t fd, char *buff, uint32_t maxBytes) {
 				  	}
 					result++;
 				}
-		     	_halt();
+				_halt();
 			}while(!done && result < maxBytes);
 	  		break;
+		case STDOUT:
+			sys_write(STDERR, "Can't read STDOUT.", 24);
+			return 0;
+			break;
+		case STDERR:
+			sys_write(STDERR, "Can't read STDERR.", 24);
+			return 0;
+			break;
 		case SPEAKER:
 			ncPrint("Speaker not implemented yet.");
 			break;
@@ -44,6 +44,9 @@ int32_t sys_write(uint8_t fd, char *buff, uint32_t maxBytes) {
 	if(fd < MIN_FD || fd > MAX_FD) return -1;
 	int i;
 	switch(fd) {
+		case STDIN:
+			sys_write(STDERR, "Can't write to STDIN.", 24);
+	  		break;
 		case STDOUT:
 			i = 0;
 			while(*buff != 0 && i < maxBytes) {
@@ -60,9 +63,6 @@ int32_t sys_write(uint8_t fd, char *buff, uint32_t maxBytes) {
 				result++;
 			}
 			break;
-		case KEYBOARD:
-			sys_write(STDERR, "Can't write to keyboard.", 24);
-	  		break;
 		case SPEAKER:
 			ncPrint("Speaker not implemented yet.");
 			break;

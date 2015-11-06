@@ -9,30 +9,22 @@
 
 void int80Handler(uint32_t syscallID, uint32_t p1, uint32_t p2, uint32_t p3) {
 	/*ncPrint("\nINT 80: Syscall #");
-	ncPrintDec(syscallID);
-	if(syscallID == SYSWRITE) {
-		ncNewline();
-		ncPrint((char *) p2);
-		ncNewline();
-	}*/
+	ncPrintDec(syscallID);*/
 
-	//TODO NOW make this work properly. Also take a look at interrupts.asm -- no interrupt is ever actually called
-
-	/*
-	TODO call appropriate system function from here. I.E:
-	0) EXIT
-	1) READ
-	2) WRITE
-	*/
 	switch(syscallID) {
 		case 0:	//Exit
-
 			break;
 		case SYSREAD:
 			sys_read((uint8_t)p1, (char *)p2, p3);
 			break;
 		case SYSWRITE:
 			sys_write((uint8_t)p1, (char *)p2, p3);
+			break;
+		case SYSCLEAR:
+			ncClear();
+			break;
+		case REBOOT:
+			outb(0x64, 0xFE);		//http://wiki.osdev.org/%228042%22_PS/2_Controller#CPU_Reset
 			break;
 		default:
 			sys_write(STDERR, " Invalid syscall ID requested ", 29);

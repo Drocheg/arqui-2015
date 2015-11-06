@@ -81,6 +81,14 @@ int32_t indexOf(const char *needle, const char *haystack) {
 	return -1;
 }
 
+void substr(const char *src, char *dest, uint32_t start, uint32_t end) {
+	int len = strlen(src), i;
+	for(i = start; i < end && i < len-1; i++) {
+		dest[i] = src[i];
+	}
+	dest[i] = 0;
+}
+
 char * toUpperStr(char *s) {
 	int i;
 	for(i = 0; *s != 0; s++) {
