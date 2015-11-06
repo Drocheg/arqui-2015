@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <scanCodes.h>
 
+#include <piano.h>
 #include <fileDescriptors.h>
 
 typedef struct
@@ -17,13 +18,17 @@ void jalp();
 void sayHello();
 void runCommand(char *cmd, ...);
 
+#include "../../Kernel/include/speaker.h"
+
 static int done = 0;
 static command commands[] = {
 	{"exit", exit},
 	{"jalp", jalp},
 	{"help", help},
 	{"hello", sayHello},
-	{"reboot", reboot}
+	{"reboot", reboot},
+	{"beep", beep},
+	{"piano", piano}
 };
 
 void runTerminal() {
@@ -55,6 +60,7 @@ void runTerminal() {
 		if(spaceIndex == -1) {	//No spaces
 			runCommand(buffer);
 		}
+		printf("\n");
 	}
 	printf("\nBye-bye!");
 }

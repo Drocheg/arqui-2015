@@ -7,6 +7,10 @@
 
 #include <keyboard.h>
 
+void timerTick();
+
+void checkSound();
+
 void int80Handler(uint32_t syscallID, uint32_t p1, uint32_t p2, uint32_t p3) {
 	/*ncPrint("\nINT 80: Syscall #");
 	ncPrintDec(syscallID);*/
@@ -37,7 +41,7 @@ void IRQ_handler(uint8_t irq) {
 	uint8_t key;	//for keyboard, can't declare in SWITCH for some reason
 	switch(irq) {
 		case 0:	//Timer tick
-			//ncPrint("t");
+			timerTick();
 			break;
 		case 1:	//Keyboard
 			//If we don't read from the keyboard buffer, it doesn't fire interrupts again!
@@ -58,4 +62,19 @@ void IRQ_handler(uint8_t irq) {
 			break;
 	}
 	outb(0x20, 0x20);	//EOI
+}
+
+void timerTick() {
+  	checkSound();
+}
+
+void checkSound() {
+	if(!noSound()) {
+		decreaseTimer();
+	}
+	if(noSound()) {
+		soundOff();
+	}
+
+
 }
