@@ -81,6 +81,11 @@ void loadKeys() {
 	keys[0x53] = '.';
 	keys[0x0E] = '\b';		//backspace
 	keys[0x1C] = '\n';		//enter
-	keys[0xE0] = '\n';		//keypad enter
+	keys[0x01] = '\e';		//escape
+	/*keys[0xE01C] = '\n';	//keypad enter
+	keys[0xE04D] = 0xE04D; //Right arrow
+	keys[0xE04B] = 0xE04B; //Left arrow
+	keys[0xE050] = 0xE050; //Down arrow
+	keys[0xE048] = 0xE048; //Up arrow*/
 	initialized = 1;
 }

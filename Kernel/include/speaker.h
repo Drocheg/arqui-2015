@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define SOUND_BUFF_SIZE 255
+#define SOUND_BUFF_SIZE 256
 
 uint8_t noSound();
 

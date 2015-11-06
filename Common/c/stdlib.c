@@ -42,7 +42,7 @@ uint8_t streql(const char *s1, const char *s2) {
 		s1++;
 		s2++;
 	}
-	return 1;
+	return *s1 == *s2;	//Ensure equal length
 }
 
 int32_t strcmp(const char *s1, const char *s2) {
