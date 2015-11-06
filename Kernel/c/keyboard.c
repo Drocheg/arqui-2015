@@ -6,7 +6,7 @@ static int readIndex = -1, writeIndex = 0;
 
 //TODO consider cases when one index is around the border from the other (i.e. 0 vs 255)
 uint8_t bufferIsEmpty() {
-	return readIndex == writeIndex-1;
+	return readIndex == writeIndex-1 || (readIndex == 0 && writeIndex == KEYBOARD_BUFF_SIZE-1) || (writeIndex == 0 && readIndex == KEYBOARD_BUFF_SIZE-1);
 }
 
 uint8_t bufferIsFull() {
@@ -16,14 +16,13 @@ uint8_t bufferIsFull() {
 uint8_t pollKey() {
 	if(bufferIsEmpty()) return 0;
 	if(++readIndex >= KEYBOARD_BUFF_SIZE) {
-		readIndex == 0;
+		readIndex = 0;
 	}
 	return queue[readIndex];
 }
 
 uint8_t offerKey(uint8_t data) {
 	if(bufferIsFull()) {
-		ncPrint("Keyboard buffer full.");	//TODO delete
 		return 0;
 	}
 	if(writeIndex == KEYBOARD_BUFF_SIZE) {

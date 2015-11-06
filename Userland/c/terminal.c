@@ -2,6 +2,8 @@
 #include <usrlib.h>
 #include <stdlib.h>
 
+#include <fileDescriptors.h>
+
 typedef struct
 {
 	char *name; 
@@ -19,14 +21,16 @@ static command commands[] = {
 };
 
 void runTerminal() {
-	printf("Welcome to the terminal!\n>");
-	/*char buffer[100];
-	int i = 0;
-	while(!done) {
+	printf("\n$>");
+	fwrite(STDERR, "Test error", 10);
+	char buffer[100];
+	int i;
+	/*while(!done) {
 		i = 0;
 		char c;
-		while(i < sizeof(buffer)-1 && (c = getchar()) != '\n') {	//TODO use scanf here
+		while(i < sizeof(buffer)-1 && (c = getchar()) != '\n') {
 			buffer[i++] = c;
+			putchar(c);
 		}
 		buffer[i++] = 0;
 		for(i = 0; i < sizeof(commands)/sizeof(command); i++) {

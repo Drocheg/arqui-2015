@@ -8,8 +8,13 @@
 #include <keyboard.h>
 
 void int80Handler(uint32_t syscallID, uint32_t p1, uint32_t p2, uint32_t p3) {
-	ncPrint("\nINT 80: Syscall #");
+	/*ncPrint("\nINT 80: Syscall #");
 	ncPrintDec(syscallID);
+	if(syscallID == SYSWRITE) {
+		ncNewline();
+		ncPrint((char *) p2);
+		ncNewline();
+	}*/
 
 	//TODO NOW make this work properly. Also take a look at interrupts.asm -- no interrupt is ever actually called
 
@@ -18,23 +23,22 @@ void int80Handler(uint32_t syscallID, uint32_t p1, uint32_t p2, uint32_t p3) {
 	0) EXIT
 	1) READ
 	2) WRITE
-	
+	*/
 	switch(syscallID) {
 		case 0:	//Exit
 
 			break;
 		case SYSREAD:
-			return sys_read((uint8_t)p1, (char *)p2, p3);
+			sys_read((uint8_t)p1, (char *)p2, p3);
 			break;
 		case SYSWRITE:
-			return sys_write((uint8_t)p1, (char *)p2, p3);
+			sys_write((uint8_t)p1, (char *)p2, p3);
 			break;
 		default:
-			sys_write(STDERR, "Invalid syscall ID requested", 28);
-			return -1;
+			sys_write(STDERR, " Invalid syscall ID requested ", 29);
+			ncPrintDec(syscallID);	//TODO delete
 			break;
 	}
-	*/
 }
 
 void IRQ_handler(uint8_t irq) {
@@ -49,13 +53,13 @@ void IRQ_handler(uint8_t irq) {
 			/*ncPrintHex(key);
 			ncPrintChar(' ');*/
 			offerKey(key);
-			if(key == 28) {
+			/*if(key == 28) {
 				while(!bufferIsEmpty()) {
 					key = pollKey();
 					ncPrintHex(key);
 					ncPrintChar(' ');
 				}
-			}
+			}*/
 			break;
 		default:
 			ncPrint("?");

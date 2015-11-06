@@ -40,7 +40,34 @@ int32_t sys_read(uint8_t fd, char *buff, uint32_t maxBytes) {
 }
 
 int32_t sys_write(uint8_t fd, char *buff, uint32_t maxBytes) {
-	return 0;
+	int result = 0;
+	if(fd < MIN_FD || fd > MAX_FD) return -1;
+	int i;
+	switch(fd) {
+		case STDOUT:
+			i = 0;
+			while(*buff != 0 && i < maxBytes) {
+				ncPrintChar(*buff);
+				buff++;
+				result++;
+			}
+			break;
+		case STDERR:
+			i = 0;
+			while(*buff != 0 && i < maxBytes) {
+				ncPrintColorChar(*buff, (char)0x4F);
+				buff++;
+				result++;
+			}
+			break;
+		case KEYBOARD:
+			sys_write(STDERR, "Can't write to keyboard.", 24);
+	  		break;
+		case SPEAKER:
+			ncPrint("Speaker not implemented yet.");
+			break;
+	}
+	return result;
 }
 
 void * memset(void * destination, int32_t c, uint64_t length)
