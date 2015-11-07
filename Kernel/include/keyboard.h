@@ -9,10 +9,10 @@ uint8_t bufferIsEmpty();
 
 uint8_t bufferIsFull();
 
-uint8_t pollKey();
+uint8_t pollRawKey();
 
-uint8_t offerKey(uint8_t data);
+uint8_t pollProcessedKey();
 
-char getCharFromScanCode(uint8_t scanCode);
+uint8_t offerKey(uint8_t scanCode);
 
 #endif

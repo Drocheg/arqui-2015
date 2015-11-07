@@ -3,6 +3,6 @@
 
 #include <stdint.h>
 
-uint8_t getCharFromScanCode(uint8_t scanCode);
+char decodeScanCode(uint8_t scanCode);
 
 #endif

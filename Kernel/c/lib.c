@@ -2,21 +2,22 @@
 #include <fileDescriptors.h>
 #include <keyboard.h>
 #include <libasm.h>
+#include <scanCodes.h>
 
 #include <video.h>
 
 int32_t sys_read(uint8_t fd, char *buff, uint32_t maxBytes) {
 	int result = 0;
 	if(fd < MIN_FD || fd > MAX_FD) return -1;
-	int i;
+	int i, done;
 	switch(fd) {
 		case STDIN:
 			result = 0;
-	  		int done = 0;
+	  		done = 0;
 	  		do {
 				for(i = 0; !bufferIsEmpty() && i < maxBytes && !done; i++) {
-					buff[i]= pollKey();
-				  	if(buff[i] == 28/*ENTER*/) {
+					buff[i]= pollProcessedKey();
+				  	if(buff[i] == '\n') {
 				  		done = 1;
 				  	}
 					result++;
@@ -24,6 +25,20 @@ int32_t sys_read(uint8_t fd, char *buff, uint32_t maxBytes) {
 				_halt();
 			}while(!done && result < maxBytes);
 	  		break;
+  		case STDIN_RAW:
+  			result = 0;
+	  		done = 0;
+	  		do {
+				for(i = 0; !bufferIsEmpty() && i < maxBytes && !done; i++) {
+					buff[i]= pollRawKey();
+				  	if(decodeScanCode(buff[i]) == '\n') {
+				  		done = 1;
+				  	}
+					result++;
+				}
+				_halt();
+			}while(!done && result < maxBytes);
+  			break;
 		case STDOUT:
 			sys_write(STDERR, "Can't read STDOUT.", 24);
 			return 0;

@@ -114,3 +114,11 @@ char toLowerChar(char s) {
 	if(s >= 'A' && s <= 'Z') return s+32;
 	else return s;
 }
+
+uint8_t isAlpha(char c) {
+	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+}
+
+uint8_t isNumber(char c) {
+	return c >= '0' && c <= '9';
+}

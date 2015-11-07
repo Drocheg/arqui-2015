@@ -46,16 +46,7 @@ void IRQ_handler(uint8_t irq) {
 		case 1:	//Keyboard
 			//If we don't read from the keyboard buffer, it doesn't fire interrupts again!
 			key = inb(0x60);
-			/*ncPrintHex(key);
-			ncPrintChar(' ');*/
 			offerKey(key);
-			/*if(key == 28) {
-				while(!bufferIsEmpty()) {
-					key = pollKey();
-					ncPrintHex(key);
-					ncPrintChar(' ');
-				}
-			}*/
 			break;
 		default:
 			ncPrint("?");

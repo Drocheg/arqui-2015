@@ -25,4 +25,8 @@ char toUpperChar(char s);
 
 char toLowerChar(char s);
 
+uint8_t isAlpha(char c);
+
+uint8_t isNumber(char c);
+
 #endif

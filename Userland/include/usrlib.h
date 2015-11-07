@@ -11,6 +11,8 @@ void putchar(char c);
 
 char getchar();
 
+uint8_t getscancode();
+
 void printf(const char *format, ...);
 
 void clearScreen();

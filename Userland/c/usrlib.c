@@ -3,6 +3,7 @@
 #include <interrupts.h>
 #include <syscalls.h>
 #include <fileDescriptors.h>
+#include <scanCodes.h>
 
 void fread(uint8_t fd, char *buff, uint64_t maxBytes) {
 	_int80(SYSREAD, fd, (uint64_t)buff, maxBytes);
@@ -19,6 +20,12 @@ void putchar(char c) {
 char getchar() {
 	char result;
 	_int80(SYSREAD, STDIN, (uint64_t)&result, 1);
+	return result;
+}
+
+uint8_t getscancode() {
+	char result;
+	_int80(SYSREAD, STDIN_RAW, (uint64_t)&result, 1);
 	return result;
 }
 

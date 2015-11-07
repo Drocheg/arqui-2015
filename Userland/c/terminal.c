@@ -39,7 +39,7 @@ void runTerminal() {
 		uint8_t index = 0;
 		uint8_t c;
 		printf(">_");
-		while((c = getCharFromScanCode(getchar())) != '\n') {
+		while((c = getchar()) != '\n') {
 			//Move cursor if valid key
 			if(c != 0) {
 				putchar('\b');
@@ -94,15 +94,22 @@ void sayHello() {
 
 void jalp() {
 	clearScreen();
-	printf("You wanted jalp? Here's your jalp:\n");
+	printf("Iu asked for jalp frend? Jier is sam jalp:\n");
+	printf("Aveilabel comandz:\n\n");
+	for(int i = 0; i < sizeof(commands)/sizeof(command); i++) {
+		printf("    ");
+		printf(commands[i].name);
+		printf(" (jau du iu pronaunz dat?)");
+		printf("\n");
+	}
+}
+
+void help() {
+	clearScreen();
 	printf("Available commands:\n\n");
 	for(int i = 0; i < sizeof(commands)/sizeof(command); i++) {
 		printf("    ");
 		printf(commands[i].name);
 		printf("\n");
 	}
-}
-
-void help() {
-	printf("No, no, no ingrish. Trai \"jalp\"");
 }

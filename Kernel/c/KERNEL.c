@@ -67,7 +67,7 @@ int main()
 
 	runTerminal();
 
-	clearScreen();
+	ncClear();
 	ncPrint("\n\n\n\n\n\n\n\n\n\n\n                    IT IS NOW SAFE TO TURN OFF YOUR COMPUTER");
 	_cli();
 	_halt();

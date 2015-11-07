@@ -6,11 +6,12 @@
 void piano() {
 	clearScreen();
 	while(1){
-		int number = getchar();
-		if(getCharFromScanCode(number) == '\e') {	//Escape
+		int number = getscancode();
+		if(decodeScanCode(number) == '\e') {	//Escape
 			break;
 		}
 		if(number>=16 && number<28){
+			//TODO offer notes via syscalls
 			offerNote(number-16,4,2);
 		}
 		if(number>=30 && number<42){
