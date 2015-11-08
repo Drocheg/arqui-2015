@@ -4,6 +4,7 @@
 #include <syscalls.h>
 #include <fileDescriptors.h>
 #include <lib.h>
+#include <modules.h>
 
 #include <keyboard.h>
 
@@ -11,30 +12,41 @@ void timerTick();
 
 void checkSound();
 
-void int80Handler(uint32_t syscallID, uint32_t p1, uint32_t p2, uint32_t p3) {
-	/*ncPrint("\nINT 80: Syscall #");
-	ncPrintDec(syscallID);*/
-
+int64_t int80Handler(uint64_t syscallID, uint64_t p1, uint64_t p2, uint64_t p3) {
+	uint64_t result;
 	switch(syscallID) {
 		case 0:	//Exit
+			result = 1;
 			break;
 		case SYSREAD:
-			sys_read((uint8_t)p1, (char *)p2, p3);
+			result = sys_read((uint8_t)p1, (char *)p2, p3);
 			break;
 		case SYSWRITE:
-			sys_write((uint8_t)p1, (char *)p2, p3);
+			result = sys_write((uint8_t)p1, (char *)p2, p3);
 			break;
 		case SYSCLEAR:
 			ncClear();
+			result = 1;
+			break;
+		case SCROLL:
+			ncScrollLines((uint8_t)p1);
+			break;
+		case GETCARETPOS:
+			result = caretPosition();
+			break;
+		case RUNCODEMODULE:
+			result = runCodeModule();
 			break;
 		case REBOOT:
 			outb(0x64, 0xFE);		//http://wiki.osdev.org/%228042%22_PS/2_Controller#CPU_Reset
+			result = 1;
 			break;
 		default:
-			sys_write(STDERR, " Invalid syscall ID requested ", 29);
-			ncPrintDec(syscallID);	//TODO delete
+			sys_write(STDERR, " Invalid syscall requested", 29);
+			result = 0;
 			break;
 	}
+	return result;
 }
 
 void IRQ_handler(uint8_t irq) {

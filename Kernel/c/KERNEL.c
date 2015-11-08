@@ -6,6 +6,7 @@
 #include <interrupts.h>
 #include <idt.h>
 #include <libasm.h>
+#include <modules.h>
 
 #include <speaker.h>
 #include <terminal.h>
@@ -18,12 +19,6 @@ extern uint8_t endOfKernelBinary;
 extern uint8_t endOfKernel;
 
 static const uint64_t PageSize = 0x1000;
-
-static void * const sampleCodeModuleAddress = (void*)0x400000;
-static void * const sampleDataModuleAddress = (void*)0x500000;
-
-typedef int (*EntryPoint)();
-
 
 void clearBSS(void * bssAddress, uint64_t bssSize)
 {
@@ -42,8 +37,8 @@ void * getStackBase()
 void * initializeKernelBinary()
 {
 	void * moduleAddresses[] = {
-		sampleCodeModuleAddress,
-		sampleDataModuleAddress
+		CODE_MODULE_ADDR,
+		DATA_MODULE_ADDR
 	};
 	loadModules(&endOfKernelBinary, moduleAddresses);
 	clearBSS(&bss, &endOfKernel - &bss);

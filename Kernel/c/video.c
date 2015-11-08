@@ -46,8 +46,8 @@ void ncPrintChar(char character)
 		currentVideo += 2;
 	}
 	if(currentVideo >= endVideo) {
-		ncClear();
-		currentVideo = video;
+		ncScroll();
+		currentVideo = video+(width*2*(height-1));
 	}
 }
 
@@ -66,8 +66,8 @@ void ncPrintColorChar(char character, char color)
 		*(currentVideo++) = color;
 	}
 	if(currentVideo >= endVideo) {
-		ncClear();
-		currentVideo = video;
+		ncScroll();
+		currentVideo = video+(width*2*(height-1));
 	}
 }
 
@@ -116,6 +116,32 @@ void ncClear()
 	for (i = 0; i < height * width; i++)
 		video[i * 2] = ' ';
 	currentVideo = video;
+}
+
+void ncScroll() {
+	ncScrollLines(1);
+}
+
+void ncScrollLines(uint8_t lines) {
+	if(lines > height) {
+		ncClear();
+		return;
+	}
+	uint32_t current = (width*2*lines),
+				end = (width*2*height)-2-current,
+				i;
+	//Move content up
+	for(i = 0; video+current < endVideo; current += 2, i += 2) {
+		video[i] = video[current];
+	}
+	//Clear bottom
+	for(i = (width*2*height)-2; i > end; i -= 2) {
+		video[i] = 0;
+	}
+}
+
+uint32_t caretPosition() {
+	return (currentVideo-video)/2;
 }
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)

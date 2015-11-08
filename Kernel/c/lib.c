@@ -3,11 +3,12 @@
 #include <keyboard.h>
 #include <libasm.h>
 #include <scanCodes.h>
+#include <modules.h>
 
 #include <video.h>
 
-int32_t sys_read(uint8_t fd, char *buff, uint32_t maxBytes) {
-	int result = 0;
+int64_t sys_read(uint8_t fd, char *buff, uint32_t maxBytes) {
+	int64_t result;
 	if(fd < MIN_FD || fd > MAX_FD) return -1;
 	int i, done;
 	switch(fd) {
@@ -41,28 +42,38 @@ int32_t sys_read(uint8_t fd, char *buff, uint32_t maxBytes) {
   			break;
 		case STDOUT:
 			sys_write(STDERR, "Can't read STDOUT.", 24);
-			return 0;
+			result = 0;
 			break;
 		case STDERR:
 			sys_write(STDERR, "Can't read STDERR.", 24);
-			return 0;
+			result = 0;
 			break;
 		case SPEAKER:
 			ncPrint("Speaker not implemented yet.");
 			break;
+		case DATA_MODULE:
+			result = 0;
+			char *data = DATA_MODULE_ADDR;
+	  		for(i = 0; data[i] != 0 && i < maxBytes; i++) {
+				buff[i]= data[i];
+				result++;
+			}
+	  		break;
 	}
 	return result;
 }
 
-int32_t sys_write(uint8_t fd, char *buff, uint32_t maxBytes) {
-	int result = 0;
+int64_t sys_write(uint8_t fd, char *buff, uint32_t maxBytes) {
+	int64_t result;
 	if(fd < MIN_FD || fd > MAX_FD) return -1;
 	int i;
 	switch(fd) {
 		case STDIN:
 			sys_write(STDERR, "Can't write to STDIN.", 24);
+			result = 0;
 	  		break;
 		case STDOUT:
+			result = 0;
 			i = 0;
 			while(*buff != 0 && i < maxBytes) {
 				ncPrintChar(*buff);
@@ -71,6 +82,7 @@ int32_t sys_write(uint8_t fd, char *buff, uint32_t maxBytes) {
 			}
 			break;
 		case STDERR:
+			result = 0;
 			i = 0;
 			while(*buff != 0 && i < maxBytes) {
 				ncPrintColorChar(*buff, (char)0x4F);
@@ -80,6 +92,11 @@ int32_t sys_write(uint8_t fd, char *buff, uint32_t maxBytes) {
 			break;
 		case SPEAKER:
 			ncPrint("Speaker not implemented yet.");
+			result = 0;
+			break;
+		case DATA_MODULE:
+			sys_write(STDERR, "Can't write to data module", 26);
+			result = 0;
 			break;
 	}
 	return result;

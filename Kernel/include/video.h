@@ -16,5 +16,8 @@ void ncPrintHex(uint64_t value);
 void ncPrintBin(uint64_t value);
 void ncPrintBase(uint64_t value, uint32_t base);
 void ncClear();
+void ncScroll();
+void ncScrollLines(uint8_t lines);
+uint32_t caretPosition();
 
 #endif

@@ -15,6 +15,8 @@ uint8_t getscancode();
 
 void printf(const char *format, ...);
 
+void scroll();
+
 void clearScreen();
 
 void reboot();

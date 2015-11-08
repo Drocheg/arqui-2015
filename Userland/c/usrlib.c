@@ -29,8 +29,18 @@ uint8_t getscancode() {
 	return result;
 }
 
+uint32_t getCaretPosition() {
+	uint32_t result;
+	result = _int80(GETCARETPOS, 0, 0, 0);
+	return result;
+}
+
 void clearScreen() {
 	_int80(SYSCLEAR, 0, 0, 0);
+}
+
+void scroll() {
+	_int80(SCROLL, 1, 0, 0);
 }
 
 void reboot() {

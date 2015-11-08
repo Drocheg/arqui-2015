@@ -6,7 +6,8 @@
 #define STDOUT 3
 #define STDERR 4
 #define SPEAKER 5
+#define DATA_MODULE 6
 #define MIN_FD STDIN
-#define MAX_FD SPEAKER
+#define MAX_FD DATA_MODULE
 
 #endif

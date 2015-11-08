@@ -13,7 +13,7 @@ LOADEROBJECT=$(LOADERSRC:.asm=.o)
 STATICLIBS=
 
 USERLAND=$(wildcard ../Userland/c/*.o)
-#TODO remove this ^ and include of Userland on line 24
+#TODO remove this ^ and -I../Userland/include in %.o
 
 all: $(KERNEL)
 

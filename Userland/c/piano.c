@@ -3,8 +3,11 @@
 #include <usrlib.h>
 #include <scanCodes.h>
 
+#include "../../Kernel/include/speaker.h"
+
 void piano() {
 	clearScreen();
+	printf("                                 PIANO v1.0\n\n");
 	while(1){
 		int number = getscancode();
 		if(decodeScanCode(number) == '\e') {	//Escape
