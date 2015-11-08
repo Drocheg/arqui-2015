@@ -27,24 +27,31 @@ int main(int argc, char *argv[]) {
 	char *fname = "song1.bin";
 	f = fopen(fname,"wb");  //(w)rite (b)inary
 	
-	note notes[] = {
-		{261, 20},
-		{523, 20}
+	note NOTES[] = {
+		{261, 50},
+		{293, 50},
+		{329, 50},
+		{349, 50},
+		{392, 50},
+		{440, 50},
+		{493, 50},
+		{523, 50},
 	};
-	uint32_t n = sizeof(notes) / sizeof(note);
+
+	uint32_t n = sizeof(NOTES) / sizeof(note);
 
 	printf("Writing %d notes:\n", n);
 	int i;
 	for(i = 0; i < n; i++) {
-		printf("%x ", notes[i].freq);
-		printf("%x\n", notes[i].duration);
+		printf("freq = %d (0x%x) ", NOTES[i].freq, NOTES[i].freq);
+		printf("duration = %d (0x%x)\n", NOTES[i].duration, NOTES[i].duration);
 	}
 
 	//Write
 	fwrite(&n, 4, 1, f);
 	for(i = 0; i < n; i++) {
-		fwrite(&(notes[i].freq), 2, 1, f);
-		fwrite(&(notes[i].duration), 1, 1, f);
+		fwrite(&(NOTES[i].freq), 2, 1, f);
+		fwrite(&(NOTES[i].duration), 1, 1, f);
 	}
 	fclose(f);
 	printf("Song write complete. File is %s", fname);

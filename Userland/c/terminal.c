@@ -4,6 +4,7 @@
 #include <scanCodes.h>
 #include <syscalls.h>
 #include <interrupts.h>
+#include <songplayer.h>
 
 #include <piano.h>
 #include <fileDescriptors.h>
@@ -29,7 +30,7 @@ static command commands[] = {
 	{"beep", beep},
 	{"clear", clearScreen},
 	{"codemodule", codeModule},
-	{"datamodule", dumpDataModule},
+	{"playsong", playSong},
 	{"exit", exit},
 	{"help", help},
 	{"hello", sayHello},
@@ -89,12 +90,6 @@ void runCommand(char *cmd) {
 	}
 }
 
-void dumpDataModule() {
-	char buff[1000];	//TODO allow to read until end of file rather than fixed-size buffer
-	fread(DATA_MODULE, buff, sizeof(buff));
-	printf(buff);
-}
-
 void codeModule() {
 	clearScreen();
 	_int80(RUNCODEMODULE, 0, 0, 0);
@@ -129,51 +124,3 @@ void help() {
 		printf("\n");
 	}
 }
-
-/*
-#include "../../Kernel/include/speaker.h"
-
-void reproducirMusica(uint8_t index) {
-	uint64_t puntero = getSong(index);
-	uint16_t frecuencia;
-	uint8_t tiempo;
-	uint32_t cant = (uint32_t)*puntero;
-	puntero+=32; //Me salteo la cantidad;
-	uint32_t contador=0;
-	do{
-		frecuencia = (uint16_t)puntero[0];
-		puntero += 16;
-		tiempo = (uint8_t)puntero[0];
-		puntero += 8;
-		offerNote(frecuencia,4,tiempo);
-		//fwrite(SPEAKER,frecuencia,tiempo);
-		contador++;
-	}while(tiempo!=0 && contador<cant); 
-
-
-}
-
-uint64_t getSong(uint8_t index){
-	char song[] = {0, 0, 0, 1, 1, 5, 10, 2, 11, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-	//uint64_t puntero=0x4000000;
-	uint64_t puntero=(uint64_t)song;
-
-	uint64_t count = 1;
-	while(count<index){
-		puntero+=((uint32_t)*puntero)*24+32; //16 de la freq y 8 del tiempo. Dice la cantidad de notas. +32 de la cantidad.
-		count++;
-	}
-	//TODO NOW
-}
-*/
-
-/*
-Formato:
-(32 bits) cantidad de notas = n
-	n veces:
-		(16 bits) frecuencia
-		(8 bits) tiempo
-
-ejemplo:     cant               !f1              !t1       !f2              !t2     !
-00000000000000000000000000000001 0000000100000101 00001010 0000001000001011 00001010 
-*/

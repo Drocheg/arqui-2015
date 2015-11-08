@@ -1,7 +1,6 @@
 all: build clean
 
 build:
-	clear; clear;
 	gcc songmaker.c -o songmaker.o
 	./songmaker.o
 
