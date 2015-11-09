@@ -13,6 +13,7 @@ typedef struct
 {
 	char *name; 
 	void (*function)(void);
+	char *help;
 } command;
 
 void exit();
@@ -27,22 +28,25 @@ void codeModule();
 
 static int done = 0;
 static command commands[] = {
-	{"beep", beep},
-	{"clear", clearScreen},
-	{"codemodule", codeModule},
-	{"playsong", playSong},
-	{"exit", exit},
-	{"help", help},
-	{"hello", sayHello},
-	{"jalp", jalp},
-	{"piano", piano},
-	{"reboot", reboot},
-	{"scroll", scroll}
+	{"beep", beep, "Makes a beep using the PC speaker"},
+	{"clear", clearScreen, "Clears the screen"},
+	{"codemodule", codeModule, "Runs the loaded code module"},
+	{"playsong", playSong, "Plays the song loaded as data module"},
+	{"exit", exit, "Exits the kernel"},
+	{"help", help, "Shows this help"},
+	{"hello", sayHello, "Greets the user"},
+	{"jalp", jalp, "Ai can't spik inglish"},
+	{"piano", piano, "Turns your keyboard into a piano!"},
+	{"reboot", reboot, "Reboots the system"},
+	{"scroll", scroll, "Scrolls an extra line"}
 };
 
 void runTerminal() {
 	clearScreen();
 	char buffer[100];
+	int majorVer = 1, minorVer = 0;
+	vargs la = {2, (void *[2]) {&majorVer, &minorVer}};
+	printf2("Terminal v%i.%i\n", &la);
 	while(!done) {
 		uint8_t index = 0;
 		uint8_t c;
@@ -106,7 +110,7 @@ void sayHello() {
 void jalp() {
 	clearScreen();
 	printf("Iu asked for jalp frend? Jier is sam jalp:\n");
-	printf("Aveilabel comandz:\n\n");
+	printf("Aveilabel comandz:\n");
 	for(int i = 0; i < sizeof(commands)/sizeof(command); i++) {
 		printf("    ");
 		printf(commands[i].name);
@@ -117,10 +121,15 @@ void jalp() {
 
 void help() {
 	clearScreen();
-	printf("Available commands:\n\n");
+	printf("Available commands:\n");
 	for(int i = 0; i < sizeof(commands)/sizeof(command); i++) {
-		printf("    ");
+		vargs a = {2, (void *[2]) {commands[i].name, commands[i].help}};
+		printf2("    %s - %s\n", &a);
+
+		/*printf("    ");
 		printf(commands[i].name);
-		printf("\n");
+		printf(" - ");
+		printf(commands[i].help);
+		printf("\n");*/
 	}
 }
