@@ -1,8 +1,8 @@
 EXTERN IRQ_handler
 EXTERN int80Handler
-GLOBAL _int20
-GLOBAL _int21
-GLOBAL _int80
+GLOBAL int20Receiver
+GLOBAL int21Receiver
+GLOBAL int80Receiver
 
 SECTION .text
 
@@ -28,13 +28,13 @@ SECTION .text
 	iretq
 %endmacro
 
-_int20:
+int20Receiver:
 	irqMacro 0x00
 
-_int21:
+int21Receiver:
 	irqMacro 0x01
 
-_int80:
+int80Receiver:
 	;Stack frame
 	push rbp
 	push rsp
@@ -53,5 +53,4 @@ _int80:
 	pop rbx
 	pop rsp
 	pop rbp
-	;iretq
-	ret
+	iretq

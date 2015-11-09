@@ -3,14 +3,13 @@
 
 #include <stdint.h>
 
-/* TODO
-IMPORTANTE! Las primeras 32 interrupciones están reservadas para excepciones,
-por lo que las nuestras empiezan a partir de index = 32 (0-31 reservadas).
+/* 
+NOTE: The first 32 interrupts are Intel-reserver for exceptions, so all other
+interrupts have an offset of 32.  Thus:
 
-int 0x20 = timer tick
-int 0x21 = teclado
+timer tick int 0 => int 0x20 (32)
+keyboard int 1 0> int 0x21 (33)
 etc.
-
 if(int >= 32 && int <= 47) => IRQ hardware interrupt
 */
 

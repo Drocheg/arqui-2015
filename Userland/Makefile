@@ -1,7 +1,7 @@
 include Makefile.inc
 
 SOURCES=$(wildcard c/*.c)
-OBJECTS=$(SOURCES:.c=.o)
+OBJECTS=$(SOURCES:.c=.o) $(wildcard ../Common/c/*.o)
 
 all: $(OBJECTS) codeModule dataModule
 
@@ -10,7 +10,6 @@ codeModule:
 
 dataModule:
 	cd Songmaker; make
-	#printf "This is sample data." >> $(SAMPLE_DATA) && dd if=/dev/zero bs=1 count=1 >> $(SAMPLE_DATA)
 
 %.o: %.c
 	$(GCC) $(GCCFLAGS) -I./include -I../Common/include -c $< -o $@

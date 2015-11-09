@@ -9,7 +9,6 @@
 #include <modules.h>
 
 #include <speaker.h>
-#include <terminal.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -50,9 +49,9 @@ int main()
 {	
 	ncClear();
 	ncPrint("Welcome to the kernel!");
-	setInterrupt(0x20, (uint64_t)&_int20);
-	setInterrupt(0x21, (uint64_t)&_int21);
-	setInterrupt(0x80, (uint64_t)&_int80);
+	setInterrupt(0x20, (uint64_t)&int20Receiver);
+	setInterrupt(0x21, (uint64_t)&int21Receiver);
+	setInterrupt(0x80, (uint64_t)&int80Receiver);
 
 
 	//masterPICmask(0x0);	//All interrupts
@@ -60,7 +59,8 @@ int main()
 	//masterPICmask(0xFD);	//Keyboard only
 	_sti();
 
-	runTerminal();
+	//TODO run from code module
+	//runTerminal();
 
 	ncClear();
 	ncPrint("\n\n\n\n\n\n\n\n\n\n\n                    IT IS NOW SAFE TO TURN OFF YOUR COMPUTER");

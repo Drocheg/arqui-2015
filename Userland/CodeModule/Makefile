@@ -1,12 +1,10 @@
 include ../Makefile.inc
 
 MODULE=codeModule.bin
-SOURCES=$(wildcard *.c)
+SOURCES=$(wildcard *.c) $(wildcard ../c/*.c) $(wildcard ../../Common/c/*.c)
 
-all: $(MODULE)
-
-$(MODULE): $(SOURCES)
-	$(GCC) $(GCCFLAGS) -T codeModule.ld $(SOURCES) -I../include -I../../Common/include  -o $(MODULE)
+all: 
+	$(GCC) $(GCCFLAGS) -T codeModule.ld $(SOURCES) $(OBECTS) -I../include -I../../Common/include -o $(MODULE)
 
 clean:
 	rm -rf *.o

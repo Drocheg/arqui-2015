@@ -12,16 +12,13 @@ LOADERSRC=loader.asm
 LOADEROBJECT=$(LOADERSRC:.asm=.o)
 STATICLIBS=
 
-USERLAND=$(wildcard ../Userland/c/*.o)
-#TODO remove this ^ and -I../Userland/include in %.o
-
 all: $(KERNEL)
 
 $(KERNEL): $(LOADEROBJECT) $(COMMON) $(OBJECTS) $(STATICLIBS) $(OBJECTS_ASM)
-	$(LD) $(LDFLAGS) -T kernel.ld -o $(KERNEL) $(LOADEROBJECT) $(OBJECTS_COMMON) $(OBJECTS_ASM_COMMON) $(OBJECTS) $(OBJECTS_ASM) $(STATICLIBS) $(USERLAND)
+	$(LD) $(LDFLAGS) -T kernel.ld -o $(KERNEL) $(LOADEROBJECT) $(OBJECTS_COMMON) $(OBJECTS_ASM_COMMON) $(OBJECTS) $(OBJECTS_ASM) $(STATICLIBS)
 
 %.o: %.c
-	$(GCC) $(GCCFLAGS) -I./include -I../Common/include -I../Userland/include -c $< -o $@
+	$(GCC) $(GCCFLAGS) -I./include -I../Common/include -c $< -o $@
 
 %.o : %.asm
 	$(ASM) $(ASMFLAGS) $< -o $@
