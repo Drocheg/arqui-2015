@@ -1,4 +1,4 @@
-EXTERN IRQ_handler
+EXTERN IRQHandler
 EXTERN int80Handler
 GLOBAL int20Receiver
 GLOBAL int21Receiver
@@ -16,7 +16,7 @@ SECTION .text
 	push r15
 
 	mov rdi, %1
-	call IRQ_handler
+	call IRQHandler
 	
 	;Undo stack frame
 	pop r15

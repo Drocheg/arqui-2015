@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-void IRQ_handler(uint8_t irq);
+void IRQHandler(uint8_t irq);
 
 int64_t int80Handler(uint64_t syscallID, uint64_t p1, uint64_t p2, uint64_t p3);
 

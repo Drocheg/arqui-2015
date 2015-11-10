@@ -18,6 +18,5 @@ void ncPrintBase(uint64_t value, uint32_t base);
 void ncClear();
 void ncScroll();
 void ncScrollLines(uint8_t lines);
-uint32_t caretPosition();
 
 #endif

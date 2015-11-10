@@ -1,13 +1,13 @@
-#include <lib.h>
+#include <kernel-lib.h>
 #include <fileDescriptors.h>
 #include <keyboard.h>
 #include <libasm.h>
 #include <scanCodes.h>
 #include <modules.h>
 #include <speaker.h>
-
 #include <video.h>
 
+//Reads from different defined files: processed keyboard and unprocessed keyboard
 int64_t sys_read(uint8_t fd, char *buff, uint32_t maxBytes) {
 	int64_t result;
 	if(fd < MIN_FD || fd > MAX_FD) return -1;
@@ -41,29 +41,19 @@ int64_t sys_read(uint8_t fd, char *buff, uint32_t maxBytes) {
 				_halt();
 			}while(!done && result < maxBytes);
   			break;
-		case STDOUT:
-			sys_write(STDERR, "Can't read STDOUT.", 24);
-			result = 0;
-			break;
-		case STDERR:
-			sys_write(STDERR, "Can't read STDERR.", 24);
-			result = 0;
-			break;
-  		default:
+		default:
+			result = -1;
   			break;
 	}
 	return result;
 }
 
+//Writes to different defined files: screen, error stream
 int64_t sys_write(uint8_t fd, char *buff, uint32_t maxBytes) {
 	int64_t result;
 	if(fd < MIN_FD || fd > MAX_FD) return -1;
 	int i;
 	switch(fd) {
-		case STDIN:
-			sys_write(STDERR, "Can't write to STDIN.", 24);
-			result = 0;
-	  		break;
 		case STDOUT:
 			result = 0;
 			i = 0;
@@ -82,16 +72,16 @@ int64_t sys_write(uint8_t fd, char *buff, uint32_t maxBytes) {
 				result++;
 			}
 			break;
-		case DATA_MODULE:
-			sys_write(STDERR, "Can't write to data module", 26);
-			result = 0;
+		default:
+			result = -1;
 			break;
 	}
 	return result;
 }
 
+//Writes notes and frequencies to the pc speaker
 void sys_sound(uint32_t freq, uint32_t time) {
-	offerSound(freq,time);
+	offerSound(freq, time);
 }
 
 void * memset(void * destination, int32_t c, uint64_t length)

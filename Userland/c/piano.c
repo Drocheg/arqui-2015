@@ -6,7 +6,7 @@
 #include <interrupts.h>
 
 
-static int sonidos[][8] = {
+static int notes[][8] = {
 	{16,33,65,131,262,523,1046,2093},
 	{17,35,69,139,277,554,1109,2217},
 	{18,37,73,147,294,587,1175,2349},
@@ -28,7 +28,7 @@ void piano() {
 	print("                              Press ESC to exit");
 	while(1){
 		int number = getscancode();
-		if(decodeScanCode(number) == '\e') {	//Escape
+		if(decodeScanCode(number) == '\e') {	//Exit with escape
 			break;
 		}
 		if(number>=16 && number<28){
@@ -46,6 +46,6 @@ void piano() {
 }
 
 void offerNote(uint8_t note, uint8_t octave, uint32_t time){
-  	uint32_t nFrequence = sonidos[note][octave];
+  	uint32_t nFrequence = notes[note][octave];
   	_int80(SPEAKER, nFrequence, time, 0);
 }

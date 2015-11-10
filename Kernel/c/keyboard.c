@@ -18,6 +18,7 @@ uint8_t bufferIsFull() {
 	return readIndex == writeIndex;
 }
 
+//Returns the next stored scan code, if present
 uint8_t pollRawKey() {
 	if(bufferIsEmpty()) return 0;
 	if(++readIndex >= KEYBOARD_BUFF_SIZE) {
@@ -26,12 +27,14 @@ uint8_t pollRawKey() {
 	return queue[readIndex];
 }
 
+//Interprets the next stored scan code, if present, and returns it
 uint8_t pollProcessedKey() {
 	uint8_t raw = pollRawKey();
 	if(raw == 0) return 0;
 	return processScanCode(raw);
 }
 
+//Adds a scan code to the end of the queue, if there is room
 uint8_t offerKey(uint8_t scanCode) {
 	processModifierKey(scanCode);
 	if(bufferIsFull()) {
@@ -44,6 +47,8 @@ uint8_t offerKey(uint8_t scanCode) {
 	return 1;
 }
 
+//Decodes the scan code and converts letters to upper case if
+//a caps key is pressed
 char processScanCode(uint8_t scanCode) {
 	if(scanCode >= 256) {
 		return 0;
@@ -52,35 +57,13 @@ char processScanCode(uint8_t scanCode) {
 	if(isAlpha(ascii)) {
 		return (caps ? toUpperChar(ascii) : ascii);
 	}
-	/*
-	//Doesn't work all that well, uncomment to experiment
-	if(isNumber(ascii)) {
-		if(!caps) return ascii;
-		switch(ascii) {
-			case '0':
-				return ')';
-				break;
-			case '2':
-				return '@';
-				break;
-			case '6':
-				return '^';
-				break;
-			default:
-				return ascii > '6' ? ascii-17 : ascii-16;
-				break;
-
-		}
-	}
-	*/
 	return ascii;
 }
 
-//Modifies appropriate flags. Returns 1 if provided scan code
-//is a modifier key, or 0 otherwise.
+//Modifies appropriate flags. Returns 1 if provided scan code is a modifier key, 0 otherwise.
 uint8_t processModifierKey(uint8_t scanCode) {
 	switch(scanCode) {
-		case 0x2A:		//L shift (make)
+		case 0x2A:		//L shift (make code)
 		case 0x36:		//R shift
 			caps = 1;
 			break;
@@ -89,28 +72,24 @@ uint8_t processModifierKey(uint8_t scanCode) {
 			caps = 1-caps;
 			break;
 		
-		case 0xAA:		//break
-		case 0xB6:
+		case 0xAA:		//L shift (break code)
+		case 0xB6:		//R shift
 			caps = 0;
 			break;
 		
-		case 0x38:
-		//case 0xE038:
+		case 0x38:		//L alt
 			alt = 1;
 			break;
 		
-		case 0xB8:
-		//case 0xE0B8:
+		case 0xB8:		//R alt
 			alt = 0;
 			break;
 		
-		case 0x1D:
-		//case 0xE01D:
+		case 0x1D:		//L control
 			ctrl = 1;
 			break;
 		
-		case 0x9D:
-		//case 0xE09D:
+		case 0x9D:		//R control
 			ctrl = 0;
 			break;
 		

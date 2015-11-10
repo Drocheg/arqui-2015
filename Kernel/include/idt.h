@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 #pragma pack(push)
-#pragma pack (1) 		/* Alinear las siguiente estructuras a 1 byte */
+#pragma pack (1) 				//Align structure to 1 byte
 typedef struct 
 {
 	uint16_t	offset_low;		// offset bits 0..15

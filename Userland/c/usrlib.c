@@ -42,9 +42,7 @@ void reboot() {
 }
 
 void print(const char *str) {
-	while(*str != 0) {
-		putchar(*str++);
-	}
+	_int80(SYSWRITE, STDOUT, str, strlen(str));
 }
 
 void printNum(uint64_t num) {
@@ -53,6 +51,7 @@ void printNum(uint64_t num) {
 	print(buff);
 }
 
+/*
 void printf(const char *format, vargs *args) {
 	int c;
 	char buf[20];
@@ -172,3 +171,4 @@ void printf(const char *format, vargs *args) {
 		}
 	}
 }
+*/

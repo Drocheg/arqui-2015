@@ -1,6 +1,5 @@
 #include <video.h>
-
-static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
+#include <stdlib.h>
 
 static char buffer[64] = { '0' };
 static uint8_t * const video = (uint8_t*)0xB8000;
@@ -9,12 +8,13 @@ static uint8_t * currentVideo = (uint8_t*)0xB8000;
 static const uint32_t width = 80;
 static const uint32_t height = 25 ;
 
+//Prints the specified message to screen.
 void ncPrint(const char * string)
 {
 	int i;
-
-	for (i = 0; string[i] != 0; i++)
+	for(i = 0; string[i] != 0; i++) {
 		ncPrintChar(string[i]);
+	}
 }
 
 void ncPrintln(const char * string) {
@@ -22,17 +22,21 @@ void ncPrintln(const char * string) {
 	ncNewline();
 }
 
+//Prints the specified message to screen with the specified color
 void ncPrintColor(const char * string, char color) {
 	int i;
-	for (i = 0; string[i] != 0; i++)
+	for (i = 0; string[i] != 0; i++) {
 		ncPrintColorChar(color, string[i]);
+	}
 }
 
 void ncPrintlnColor(const char * string, char color) {
 	ncPrintColor(string, color);
-	ncNewline();	//\n without coloring
+	ncNewline();
 }
 
+//Prints the scpecified char to screen. Handles special chars and
+//scrolls if necessary
 void ncPrintChar(char character)
 {
 	if(character == '\n') {
@@ -82,9 +86,9 @@ void ncNewline()
 
 void ncBackspace() {
 	if(currentVideo > video) {
-		currentVideo -= 2;		//Goes back if necessary
+		currentVideo -= 2;		//Goes back if possible
 	}
-	*currentVideo = 0;		//Clears char
+	*currentVideo = 0;			//Clears char
 }
 
 void ncPrintDec(uint64_t value)
@@ -104,7 +108,7 @@ void ncPrintBin(uint64_t value)
 
 void ncPrintBase(uint64_t value, uint32_t base)
 {
-    uintToBase(value, buffer, base);
+    intToStrBase(value, buffer, base);
     ncPrint(buffer);
 }
 
@@ -139,41 +143,4 @@ void ncScrollLines(uint8_t lines) {
 	for(i = (width*2*height)-2; i > end; i -= 2) {
 		video[i] = 0;
 	}
-}
-
-uint32_t caretPosition() {
-	return (currentVideo-video)/2;
-}
-
-static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
-{
-	char *p = buffer;
-	char *p1, *p2;
-	uint32_t digits = 0;
-
-	//Calculate characters for each digit
-	do
-	{
-		uint32_t remainder = value % base;
-		*p++ = (remainder < 10) ? remainder + '0' : remainder + 'A' - 10;
-		digits++;
-	}
-	while (value /= base);
-
-	// Terminate string in buffer.
-	*p = 0;
-
-	//Reverse string in buffer.
-	p1 = buffer;
-	p2 = p - 1;
-	while (p1 < p2)
-	{
-		char tmp = *p1;
-		*p1 = *p2;
-		*p2 = tmp;
-		p1++;
-		p2--;
-	}
-
-	return digits;
 }

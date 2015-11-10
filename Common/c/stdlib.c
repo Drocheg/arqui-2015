@@ -36,6 +36,7 @@ uint32_t intToStrBase(uint64_t value, char * buffer, uint32_t base) {
 	return digits;
 }
 
+//Compares string equality
 uint8_t streql(const char *s1, const char *s2) {
 	while(*s1 != 0 && *s2 != 0) {
 		if(*s1 != *s2) return 0;
@@ -45,6 +46,7 @@ uint8_t streql(const char *s1, const char *s2) {
 	return *s1 == *s2;	//Ensure equal length
 }
 
+//Compares two strings lexicographically
 int32_t strcmp(const char *s1, const char *s2) {
 	while(*s1 != 0 && *s2 != 0) {
 		int diff = *s1 - *s2;
@@ -55,6 +57,7 @@ int32_t strcmp(const char *s1, const char *s2) {
 	return *s1-*s2;
 }
 
+//Calculates length of a (null-terminated) string
 uint32_t strlen(const char *s) {
 	uint32_t result = 0;
 	while(*s != 0) {
@@ -64,6 +67,8 @@ uint32_t strlen(const char *s) {
 	return result;
 }
 
+//Returns the index of the first occurrence of the specified "needle" string
+//in the specified "haystack" string
 int32_t indexOf(const char *needle, const char *haystack) {
 	int hIndex, nIndex, nLen = strlen(needle);
 	for(hIndex = 0, nIndex = 0; haystack[hIndex] != 0; hIndex++) {
@@ -81,6 +86,8 @@ int32_t indexOf(const char *needle, const char *haystack) {
 	return -1;
 }
 
+//Creates a substring of the specified source string in the specified destination
+//string, starting and ending at the specified indices (end index exclusive)
 void substr(const char *src, char *dest, uint32_t start, uint32_t end) {
 	int len = strlen(src), i;
 	for(i = start; i < end && i < len-1; i++) {

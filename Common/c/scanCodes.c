@@ -1,6 +1,6 @@
 #include <scanCodes.h>
 
-static char scanCodes[256] = {0};
+static char scanCodes[256] = {0};		//Unknown scan codes are mapped to 0
 static uint8_t initialized = 0;
 
 void init();
@@ -13,7 +13,8 @@ char decodeScanCode(uint8_t scanCode) {
 	return scanCodes[scanCode];
 }
 
-//http://wiki.osdev.org/PS/2_Keyboard#Scan_Code_Sets.2C_Scan_Codes_and_Key_Codes scan code set 1
+//http://wiki.osdev.org/PS/2_Keyboard#Scan_Code_Sets.2C_Scan_Codes_and_Key_Codes
+//Scan code set 1
 void init() {
 	scanCodes[0x1E] = 'a';
 	scanCodes[0x30] = 'b';
@@ -80,8 +81,8 @@ void init() {
 	scanCodes[0x0E] = '\b';		//backspace
 	scanCodes[0x1C] = '\n';		//enter
 	scanCodes[0x01] = '\e';		//escape
-	/*scanCodes[0xE01C] = '\n';	//keypad enter
-	scanCodes[0xE04D] = 0xE04D; //Right arrow
+	scanCodes[0xE01C] = '\n';	//keypad enter
+	/*scanCodes[0xE04D] = 0xE04D; //Right arrow
 	scanCodes[0xE04B] = 0xE04B; //Left arrow
 	scanCodes[0xE050] = 0xE050; //Down arrow
 	scanCodes[0xE048] = 0xE048; //Up arrow*/

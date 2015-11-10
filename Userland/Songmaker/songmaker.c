@@ -1,20 +1,29 @@
 /*
-FORMATO DE CANCIONES:
+SONG FORMAT:
 
-(32 bits) cantidad de notas = n
-	n veces:
-		(16 bits) frecuencia
-		(8 bits) tiempo
+(32 bits) number of notes = n
+	n times:
+		(32 bits) frequency
+		(8 bits) time
 
-ejemplo:     cant=2             |f1              |t1       |f2              |t2     
-00000000000000000000000000000010 0000000100000101 00001010 0000001000001011 00001010
+Example:
+n=2
+00000000000000000000000000000010 
+f1
+00000000000000000000000100000101
+t1
+00001010 
+f2              
+00000000000000000000001000001011
+t2   
+00001010  
 */
 
 #include <stdint.h>
 #include <stdio.h>
 
 #pragma pack(push)
-#pragma pack (1) 		/* Alinear a 1 byte */
+#pragma pack (1) 		/* Align struct to 1 byte */
 typedef struct
 {
 	uint32_t freq;

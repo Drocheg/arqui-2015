@@ -5,13 +5,13 @@
 #include <syscalls.h>
 #include <interrupts.h>
 #include <songplayer.h>
-
 #include <piano.h>
 #include <fileDescriptors.h>
 
 extern char bss;
 extern char endOfBinary;
 static int bssCheck = 0;
+
 static const int MAJOR_VER = 1;
 static const int MINOR_VER = 0;
 static int EXIT = 0;
@@ -51,7 +51,7 @@ static command commands[] = {
 
 int32_t userland_main(int argc, char *argv[]) {
 	memset(&bss, 0, &endOfBinary - &bss);	//Clean BSS
-	if(bssCheck != 0) {						//Improper BSS setup
+	if(bssCheck != 0) {						//Improper BSS setup, abort
 		return -1;
 	}
 
@@ -59,7 +59,7 @@ int32_t userland_main(int argc, char *argv[]) {
 	char buffer[100];
 	printVer();
 	print("\nTo see available commands, type help\n");
-	//Process input. No "scanf" or anything of the sort because input is treated especially
+	//Process input. No use of  "scanf" or anything of the sort because input is treated especially
 	while(!EXIT) {
 		uint8_t index = 0;
 		uint8_t c;
@@ -82,11 +82,16 @@ int32_t userland_main(int argc, char *argv[]) {
 				putchar('_');
 			}
 		}
-		buffer[index] = 0;					//Entry finished, terminate with null
-		print("\n");
-		runCommand(buffer);
-		if(!streql(buffer, "clear")) {
+		if(index > 0) {						//Don't do anything if buffer is empty
+			buffer[index] = 0;				//Entry finished, terminate with null
 			print("\n");
+			runCommand(buffer);
+			if(!streql(buffer, "clear")) {
+				print("\n");
+			}
+		}
+		else {
+			print("\b\b");					//Empty buffer, counter next ">_" with \b\b
 		}
 	}
 	print("\nBye-bye!");
@@ -111,7 +116,7 @@ void printVer(const char *str) {
 }
 
 void beep() {
-	_int80(SPEAKER, 1000, 5, 0);
+	_int80(SPEAKER, 1000, 1, 0);
 }
 
 void runCommand(char *cmd) {
@@ -157,11 +162,7 @@ void help() {
 		print(commands[i].name);
 		print(" - ");
 		print(commands[i].help);
-		/*
-		//Using var args:
-		vargs a = {2, (void *[2]) {commands[i].name, commands[i].help}};
-		printf("    %s - %s\n", &a);
-		*/
+		print("\n");
 	}
 }
 

@@ -1,4 +1,3 @@
-
 all: clean bootloader common userland kernel image
 
 bootloader:
