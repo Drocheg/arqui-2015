@@ -20,20 +20,20 @@ typedef struct
 	char *help;
 } command;
 
+void beep();
 void exit();
 void help();
 void jalp();
 void sayHello();
 void runCommand(char *cmd);
 void dumpDataModule();
-void codeModule();
+void rainbow();
 void * memset(void * destiny, int32_t c, uint64_t length);
 
 static int done = 0;
 static command commands[] = {
-	//{"beep", beep, "Makes a beep using the PC speaker"}, TODO
+	{"beep", beep, "Makes a beep using the PC speaker"},
 	{"clear", clearScreen, "Clears the screen"},
-	{"codemodule", codeModule, "Runs the loaded code module"},
 	{"playsong", playSong, "Plays the song loaded as data module"},
 	{"exit", exit, "Exits the kernel"},
 	{"help", help, "Shows this help"},
@@ -41,32 +41,24 @@ static command commands[] = {
 	{"jalp", jalp, "Ai can't spik inglish"},
 	{"piano", piano, "Turns your keyboard into a piano!"},
 	{"reboot", reboot, "Reboots the system"},
-	{"scroll", scroll, "Scrolls an extra line"}
+	{"scroll", scroll, "Scrolls an extra line"},
+	{"surpriseme", rainbow, "Surprise surprise..."}
 };
 
 
 int32_t userland_main(int argc, char *argv[]) {
 	//Clean BSS
 	memset(&bss, 0, &endOfBinary - &bss);
-	
 	if(bssCheck != 0) {	//Improper BSS setup
 		return -1;
 	}
 
-	char *msg = "LALALAL";
-	_int80(SYSWRITE, STDOUT, (int64_t)msg, 7);
-
-	while(1);
-	
-
 	clearScreen();
-
-	printf("\nHello from userland!\n");
-	return 0;
 	char buffer[100];
 	int majorVer = 1, minorVer = 0;
 	vargs la = {2, (void *[2]) {&majorVer, &minorVer}};
 	printf2("Terminal v%i.%i\n", &la);
+	printf("To see available commands, type help\n");
 	while(!done) {
 		uint8_t index = 0;
 		uint8_t c;
@@ -97,20 +89,6 @@ int32_t userland_main(int argc, char *argv[]) {
 		}
 	}
 	printf("\nBye-bye!");
-
-	/*
-	//RAINBOWW
-	char *video = (char *)0xB8000;
-	for(int i = 1; i < (80*25*2)-1; i += 2) {
-		video[i] = (char)i;
-	}
-	video = video + (80*2*12) + (30*2);
-	char *message = "TASTE THE RAINBOWWWW";
-	for(int i = 0; message[i] != 0; i++) {
-		video[i] = message[i];
-		video++;
-	}
-	*/
 	return 0;
 }
 
@@ -124,6 +102,10 @@ void * memset(void * dest, int32_t c, uint64_t length) {
 	return dest;
 }
 
+void beep() {
+	_int80(SPEAKER, 1000, 5, 0);
+}
+
 void runCommand(char *cmd) {
 	toLowerStr(cmd);
 	int found = 0;
@@ -135,13 +117,8 @@ void runCommand(char *cmd) {
 		}
 	}
 	if(!found) {
-		printf("No such command.");
+		printf("No such command. Try running help");
 	}
-}
-
-void codeModule() {
-	clearScreen();
-	_int80(RUNCODEMODULE, 0, 0, 0);
 }
 
 void exit() {
@@ -170,11 +147,18 @@ void help() {
 	for(int i = 0; i < sizeof(commands)/sizeof(command); i++) {
 		vargs a = {2, (void *[2]) {commands[i].name, commands[i].help}};
 		printf2("    %s - %s\n", &a);
+	}
+}
 
-		/*printf("    ");
-		printf(commands[i].name);
-		printf(" - ");
-		printf(commands[i].help);
-		printf("\n");*/
+void rainbow() {
+	char *video = (char *)0xB8000;
+	for(int i = 1; i < (80*25*2)-1; i += 2) {
+		video[i] = (char)i;
+	}
+	video = video + (80*2*12) + (30*2);
+	char *message = "TASTE THE RAINBOWWWW";
+	for(int i = 0; message[i] != 0; i++) {
+		video[i] = message[i];
+		video++;
 	}
 }

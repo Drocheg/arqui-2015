@@ -23,6 +23,6 @@ int32_t runCodeModule() {
 	return result;
 }
 
-char * readDataModule() {
+char * openDataModule() {
 	return (char*)DATA_MODULE_ADDR;
 }

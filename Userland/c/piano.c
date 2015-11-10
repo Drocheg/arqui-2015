@@ -23,7 +23,8 @@ void offerNote(uint8_t note, uint8_t octave, uint32_t time);
 
 void piano() {
 	clearScreen();
-	printf("                                 PIANO v1.0\n\n");
+	printf("                                 PIANO v1.0\n");
+	printf("                              Press ESC to exit");
 	while(1){
 		int number = getscancode();
 		if(decodeScanCode(number) == '\e') {	//Escape
@@ -40,7 +41,7 @@ void piano() {
 		}
 
 	}
-
+	clearScreen();
 }
 
 void offerNote(uint8_t note, uint8_t octave, uint32_t time){

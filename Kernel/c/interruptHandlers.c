@@ -13,7 +13,8 @@ void timerTick();
 void checkSound();
 
 int64_t int80Handler(uint64_t syscallID, uint64_t p1, uint64_t p2, uint64_t p3) {
-	uint64_t result;
+	int64_t result;
+	_sti();
 	switch(syscallID) {
 		case 0:	//Exit
 			result = 1;
@@ -34,21 +35,15 @@ int64_t int80Handler(uint64_t syscallID, uint64_t p1, uint64_t p2, uint64_t p3) 
 		case SPEAKER:
 			sys_sound((uint32_t)p1, (uint32_t)p2);
 			break;
-		case GETCARETPOS:
-			result = caretPosition();
-			break;
-		case RUNCODEMODULE:
-			result = runCodeModule();
+		case OPENDATAMODULE:
+			result = (int64_t) openDataModule();
 			break;
 		case REBOOT:
 			outb(0x64, 0xFE);		//http://wiki.osdev.org/%228042%22_PS/2_Controller#CPU_Reset
 			result = 1;
 			break;
 		default:
-			ncPrintDec(syscallID);
-			ncPrintChar('?');
-			//sys_write(STDERR, " Invalid syscall requested", 29);	TODO uncomment
-			result = 0;
+			result = -1;
 			break;
 	}
 	return result;
@@ -56,6 +51,7 @@ int64_t int80Handler(uint64_t syscallID, uint64_t p1, uint64_t p2, uint64_t p3) 
 
 void IRQ_handler(uint8_t irq) {
 	uint8_t key;	//for keyboard, can't declare in SWITCH for some reason
+	//ncPrintDec(irq);
 	switch(irq) {
 		case 0:	//Timer tick
 			timerTick();

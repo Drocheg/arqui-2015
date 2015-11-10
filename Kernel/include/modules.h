@@ -8,6 +8,6 @@
 
 int32_t runCodeModule();
 
-char * readDataModule();
+char * openDataModule();
 
 #endif

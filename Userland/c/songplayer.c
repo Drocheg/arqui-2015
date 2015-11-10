@@ -1,8 +1,7 @@
 #include <songplayer.h>
 #include <usrlib.h>
 #include <syscalls.h>
-
-#include <vargs.h>	//TODO delete
+#include <fileDescriptors.h>
 
 /*
 FORMATO DE CANCIONES:
@@ -18,21 +17,21 @@ ejemplo:     cant=2             |f1              |t1       |f2              |t2
 
 
 void playSong() {
-	char *buff = (char *)0x500000;		//TODO tidy up
-	int32_t n = (int32_t) *buff;
+	char *songData;
+	songData = (char *) _int80(OPENDATAMODULE, 0, 0, 0);
 	
-	//TODO delete
-	vargs a = {1, (void *[1]) {buff+4}};
-	printf2("Playing %ui notes:\n", &a);
-
-	char *data = (char *)(buff+4);	//Skip bytes for n
+	int32_t n = (int32_t) *songData;
+	songData = songData+4;						//Skip bytes for n
 	uint16_t freq;
 	uint8_t time;
+	
+	clearScreen();
+	printf("                   I shall now play you the song of my people\n");
 	while(n > 0) {
-		freq = *((uint16_t *)data);
-		data = data+2;
-		time = *((uint8_t *)data);
-		data = data+1;
+		freq = *((uint16_t *)songData);
+		songData = songData+2;
+		time = *((uint8_t *)songData);
+		songData = songData+1;
 	  	_int80(SPEAKER, freq, time, 0);
 		n--;
 	}

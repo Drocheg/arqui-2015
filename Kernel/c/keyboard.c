@@ -32,8 +32,6 @@ uint8_t pollProcessedKey() {
 	return processScanCode(raw);
 }
 
-//TODO verificar que no se rompa en casos límite
-
 uint8_t offerKey(uint8_t scanCode) {
 	processModifierKey(scanCode);
 	if(bufferIsFull()) {
@@ -46,7 +44,6 @@ uint8_t offerKey(uint8_t scanCode) {
 	return 1;
 }
 
-//TODO sort number asciis better? Or just ignore them altogether
 char processScanCode(uint8_t scanCode) {
 	if(scanCode >= 256) {
 		return 0;
@@ -55,6 +52,8 @@ char processScanCode(uint8_t scanCode) {
 	if(isAlpha(ascii)) {
 		return (caps ? toUpperChar(ascii) : ascii);
 	}
+	/*
+	//Doesn't work all that well, uncomment to experiment
 	if(isNumber(ascii)) {
 		if(!caps) return ascii;
 		switch(ascii) {
@@ -73,6 +72,7 @@ char processScanCode(uint8_t scanCode) {
 
 		}
 	}
+	*/
 	return ascii;	//Unknown, probably 0
 }
 

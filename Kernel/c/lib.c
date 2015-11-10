@@ -49,14 +49,8 @@ int64_t sys_read(uint8_t fd, char *buff, uint32_t maxBytes) {
 			sys_write(STDERR, "Can't read STDERR.", 24);
 			result = 0;
 			break;
-		case DATA_MODULE:
-			result = 0;
-			char *data = DATA_MODULE_ADDR;
-	  		for(i = 0; data[i] != 0 && i < maxBytes; i++) {
-				buff[i]= data[i];
-				result++;
-			}
-	  		break;
+  		default:
+  			break;
 	}
 	return result;
 }

@@ -6,7 +6,7 @@
 #define SYSCLEAR 3
 #define SCROLL 4
 #define SPEAKER 5
-#define GETCARETPOS 6
+#define OPENDATAMODULE 6
 #define RUNCODEMODULE 7
 #define REBOOT 8
 

@@ -10,3 +10,4 @@ _int21:
 
 _int80:
 	int 0x80
+	ret

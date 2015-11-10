@@ -63,7 +63,6 @@ int kernel_main(int argc, char *argv[])
 	_sti();
 
 	runCodeModule();
-	while(1);	//TODO delete
 
 	ncClear();
 	ncPrint("\n\n\n\n\n\n\n\n\n\n\n                    IT IS NOW SAFE TO TURN OFF YOUR COMPUTER");
