@@ -7,15 +7,13 @@ SOURCES_ASM= asm/interrupts.asm asm/libasm.asm
 OBJECTS= c/idt.o c/KERNEL.o c/lib.o c/modules.o c/video.o c/interruptHandlers.o c/keyboard.o c/moduleLoader.o c/speaker.o
 OBJECTS_ASM= asm/interrupts.o asm/libasm.o
 OBJECTS_COMMON=../Common/c/scanCodes.o ../Common/c/stdlib.o
-LOADERSRC= loader.asm
-
-LOADEROBJECT=$(LOADERSRC:.asm=.o)
-STATICLIBS=
+LOADERSRC= asm/loader.asm
+LOADEROBJECT=asm/loader.o
 
 all: $(KERNEL)
 
-$(KERNEL): $(LOADEROBJECT) $(COMMON) $(OBJECTS) $(STATICLIBS) $(OBJECTS_ASM)
-	$(LD) $(LDFLAGS) -T kernel.ld -o $(KERNEL) $(LOADEROBJECT) $(OBJECTS_COMMON) $(OBJECTS) $(OBJECTS_ASM) $(STATICLIBS)
+$(KERNEL): $(LOADEROBJECT) $(COMMON) $(OBJECTS) $(OBJECTS_ASM)
+	$(LD) $(LDFLAGS) -T kernel.ld -o $(KERNEL) $(LOADEROBJECT) $(OBJECTS_COMMON) $(OBJECTS) $(OBJECTS_ASM)
 
 %.o: %.c
 	$(GCC) $(GCCFLAGS) -I./include -I../Common/include -c $< -o $@

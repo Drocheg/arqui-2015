@@ -2,7 +2,7 @@
 #include <lib.h>
 #include <fileDescriptors.h>
 
-typedef int (*EntryPoint)();
+typedef int32_t (*EntryPoint)();
 static uint8_t running = 0;
 
 int32_t runCodeModule() {
@@ -12,6 +12,10 @@ int32_t runCodeModule() {
 	}
 	running = 1;
 	int32_t result;
+	ncPrintHex(CODE_MODULE_ADDR);
+	ncPrintChar('\n');
+	ncPrintHex(*(uint64_t *)CODE_MODULE_ADDR);
+	while(1);
 	result = ((EntryPoint)CODE_MODULE_ADDR)();
 	running = 0;
 	return result;

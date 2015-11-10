@@ -29,10 +29,10 @@ SECTION .text
 %endmacro
 
 int20Receiver:
-	irqMacro 0x00
+	irqMacro 0
 
 int21Receiver:
-	irqMacro 0x01
+	irqMacro 1
 
 int80Receiver:
 	;Stack frame
@@ -43,9 +43,12 @@ int80Receiver:
 	push r13
 	push r15
 
+	cmp rdi, 32
+	je .end
 	;Parameter registers shouldn't have been modified
 	call int80Handler
 	
+	.end:
 	;Undo stack frame
 	pop r15
 	pop r13

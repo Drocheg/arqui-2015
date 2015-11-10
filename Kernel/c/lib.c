@@ -49,9 +49,6 @@ int64_t sys_read(uint8_t fd, char *buff, uint32_t maxBytes) {
 			sys_write(STDERR, "Can't read STDERR.", 24);
 			result = 0;
 			break;
-		case SPEAKER:
-			ncPrint("Speaker not implemented yet.");
-			break;
 		case DATA_MODULE:
 			result = 0;
 			char *data = DATA_MODULE_ADDR;
@@ -91,16 +88,16 @@ int64_t sys_write(uint8_t fd, char *buff, uint32_t maxBytes) {
 				result++;
 			}
 			break;
-		case SPEAKER:
-	  		offerSound((uint32_t) buff,maxBytes); //freq and time
-			result = 0;
-			break;
 		case DATA_MODULE:
 			sys_write(STDERR, "Can't write to data module", 26);
 			result = 0;
 			break;
 	}
 	return result;
+}
+
+void sys_sound(uint32_t freq, uint32_t time) {
+	offerSound(freq,time);
 }
 
 void * memset(void * destination, int32_t c, uint64_t length)

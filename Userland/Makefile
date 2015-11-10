@@ -6,16 +6,16 @@ SOURCES= c/USERLAND.c c/piano.c c/songplayer.c c/terminal.c c/usrlib.c ../Common
 ASMOBJECTS= asm/interrupts.o
 COBJECTS=c/USERLAND.o c/piano.o c/songplayer.o c/terminal.o c/usrlib.o ../Common/c/scanCodes.o ../Common/c/stdlib.o
 
+all: $(USER) songmaker
+
 %.o: %.c
 	$(GCC) -c $(GCCFLAGS) -I./include -I../Common/include/ $< -o $@
 
 %.o: %.asm
 	$(ASM) $(ASMFLAGS) $< -o $@
 
-all: $(USER) songmaker
-
-$(USER): $(ASMOBJECTS) $(COBJECTS)
-	$(LD) -T userland.ld $(ASMOBJECTS) $(COBJECTS) -o $(MODULE)
+$(USER): $(COBJECTS) $(ASMOBJECTS)
+	$(LD) -T userland.ld $(COBJECTS) $(ASMOBJECTS) -o $(MODULE)
 
 songmaker:
 	cd Songmaker; make

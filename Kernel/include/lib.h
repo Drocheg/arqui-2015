@@ -9,5 +9,6 @@ char *cpuVendor(char *result);
 
 int64_t sys_read(uint8_t fd, char *buff, uint32_t maxBytes);
 int64_t sys_write(uint8_t fd, char *buff, uint32_t maxBytes);
+void sys_sound(uint32_t freq, uint32_t time);
 
 #endif

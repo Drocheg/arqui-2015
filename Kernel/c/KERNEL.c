@@ -45,7 +45,7 @@ void * initializeKernelBinary()
 	return getStackBase();
 }
 
-int main()
+int kernel_main(int argc, char *argv[])
 {	
 	ncClear();
 	ncPrint("Welcome to the kernel!\n");
@@ -56,8 +56,8 @@ int main()
 
 	//masterPICmask(0x0);	//All interrupts
 	masterPICmask(0xFC);	//Keyboard and timer tick
-	//masterPICmask(0xFE);	//Timer tick only
 	//masterPICmask(0xFD);	//Keyboard only
+	//masterPICmask(0xFE);	//Timer tick only
 	//masterPICmask(0xFF);	//No interrupts
 	_sti();
 

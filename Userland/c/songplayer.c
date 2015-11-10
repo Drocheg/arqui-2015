@@ -1,6 +1,6 @@
 #include <songplayer.h>
 #include <usrlib.h>
-#include <fileDescriptors.h>
+#include <syscalls.h>
 
 #include <vargs.h>	//TODO delete
 
@@ -33,8 +33,7 @@ void playSong() {
 		data = data+2;
 		time = *((uint8_t *)data);
 		data = data+1;
-		fwrite(SPEAKER,(char *)freq, time);
-	  	//offerSound(freq, time);	TODO Use syscalls done? see previous line
-	  	n--;
+	  	_int80(SPEAKER, freq, time, 0);
+		n--;
 	}
 }

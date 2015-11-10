@@ -31,6 +31,9 @@ int64_t int80Handler(uint64_t syscallID, uint64_t p1, uint64_t p2, uint64_t p3) 
 		case SCROLL:
 			ncScrollLines((uint8_t)p1);
 			break;
+		case SPEAKER:
+			sys_sound((uint32_t)p1, (uint32_t)p2);
+			break;
 		case GETCARETPOS:
 			result = caretPosition();
 			break;
@@ -58,12 +61,10 @@ void IRQ_handler(uint8_t irq) {
 			timerTick();
 			break;
 		case 1:	//Keyboard
-			//If we don't read from the keyboard buffer, it doesn't fire interrupts again!
-			key = inb(0x60);
+			key = inb(0x60);	//If we don't read from the keyboard buffer, it doesn't fire interrupts again!
 			offerKey(key);
 			break;
 		default:
-			ncPrint("?");
 			break;
 	}
 	outb(0x20, 0x20);	//EOI
@@ -80,6 +81,4 @@ void checkSound() {
 	if(noSound()) {
 		soundOff();
 	}
-
-
 }

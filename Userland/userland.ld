@@ -1,5 +1,5 @@
 OUTPUT_FORMAT("binary")
-ENTRY(main)
+ENTRY(userland_main)
 SECTIONS
 {
 	.text 0x400000 :

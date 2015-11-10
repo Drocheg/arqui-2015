@@ -45,7 +45,7 @@ static command commands[] = {
 };
 
 
-int32_t main() {
+int32_t userland_main(int argc, char *argv[]) {
 	//Clean BSS
 	memset(&bss, 0, &endOfBinary - &bss);
 	
@@ -53,9 +53,9 @@ int32_t main() {
 		return -1;
 	}
 	
+	clearScreen();
 	while(1);
 
-	clearScreen();
 	printf("\nHello from userland!\n");
 	return 0;
 	char buffer[100];

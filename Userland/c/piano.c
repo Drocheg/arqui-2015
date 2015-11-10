@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <usrlib.h>
 #include <scanCodes.h>
-#include <fileDescriptors.h>
+#include <syscalls.h>
 
 
 static int sonidos[][8] = {
@@ -43,12 +43,12 @@ void piano() {
 
 }
 
-void offerNote(uint8_t note, uint8_t octave, uint32_t time) {
+void offerNote(uint8_t note, uint8_t octave, uint32_t time){
   	//ncPrintDec(note);
   	//ncPrintDec(octave);
   	//ncPrint(" : ");
-  	uint32_t nFrequence = sonidos[note][octave];
+	uint32_t nFrequence = sonidos[note][octave];
 	//ncPrintDec(nFrequence);
   	//ncPrint(" ");
-   	fwrite(SPEAKER,(char *)nFrequence,time);
+  	_int80(SPEAKER, nFrequence, time, 0);
 }
