@@ -5,7 +5,7 @@
 #include <fileDescriptors.h>
 #include <lib.h>
 #include <modules.h>
-
+#include <speaker.h>
 #include <keyboard.h>
 
 void timerTick();
@@ -14,8 +14,6 @@ void checkSound();
 
 int64_t int80Handler(uint64_t syscallID, uint64_t p1, uint64_t p2, uint64_t p3) {
 	uint64_t result;
-	ncPrintDec(syscallID);
-	ncNewline();
 	switch(syscallID) {
 		case 0:	//Exit
 			result = 1;
@@ -44,7 +42,9 @@ int64_t int80Handler(uint64_t syscallID, uint64_t p1, uint64_t p2, uint64_t p3) 
 			result = 1;
 			break;
 		default:
-			sys_write(STDERR, " Invalid syscall requested", 29);
+			ncPrintDec(syscallID);
+			ncPrintChar('?');
+			//sys_write(STDERR, " Invalid syscall requested", 29);	TODO uncomment
 			result = 0;
 			break;
 	}

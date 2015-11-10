@@ -48,7 +48,7 @@ void * initializeKernelBinary()
 int main()
 {	
 	ncClear();
-	ncPrint("Welcome to the kernel!");
+	ncPrint("Welcome to the kernel!\n");
 	setInterrupt(0x20, (uint64_t)&int20Receiver);
 	setInterrupt(0x21, (uint64_t)&int21Receiver);
 	setInterrupt(0x80, (uint64_t)&int80Receiver);
@@ -62,6 +62,7 @@ int main()
 	_sti();
 
 	runCodeModule();
+	while(1);	//TODO delete
 
 	ncClear();
 	ncPrint("\n\n\n\n\n\n\n\n\n\n\n                    IT IS NOW SAFE TO TURN OFF YOUR COMPUTER");

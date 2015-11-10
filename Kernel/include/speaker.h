@@ -13,8 +13,6 @@ uint8_t offerSound(uint32_t sound, uint32_t time);
 
 void decreaseTimer();
 
-void offerNote(uint8_t note, uint8_t octave, uint32_t time);
-
 void playSound(uint32_t nFrequence);
 
 void soundOff();

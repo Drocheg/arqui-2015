@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include <terminal.h>
 #include <usrlib.h>
 #include <stdlib.h>
 #include <scanCodes.h>
@@ -54,7 +53,11 @@ int32_t main() {
 		return -1;
 	}
 	
+	while(1);
+
 	clearScreen();
+	printf("\nHello from userland!\n");
+	return 0;
 	char buffer[100];
 	int majorVer = 1, minorVer = 0;
 	vargs la = {2, (void *[2]) {&majorVer, &minorVer}};

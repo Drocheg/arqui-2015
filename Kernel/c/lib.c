@@ -4,6 +4,7 @@
 #include <libasm.h>
 #include <scanCodes.h>
 #include <modules.h>
+#include <speaker.h>
 
 #include <video.h>
 
@@ -91,7 +92,7 @@ int64_t sys_write(uint8_t fd, char *buff, uint32_t maxBytes) {
 			}
 			break;
 		case SPEAKER:
-			ncPrint("Speaker not implemented yet.");
+	  		offerSound((uint32_t) buff,maxBytes); //freq and time
 			result = 0;
 			break;
 		case DATA_MODULE:
