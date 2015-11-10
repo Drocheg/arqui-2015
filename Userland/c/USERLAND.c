@@ -52,9 +52,14 @@ int32_t userland_main(int argc, char *argv[]) {
 	if(bssCheck != 0) {	//Improper BSS setup
 		return -1;
 	}
-	
-	clearScreen();
+
+	char *msg = "LALALAL";
+	_int80(SYSWRITE, STDOUT, (int64_t)msg, 7);
+
 	while(1);
+	
+
+	clearScreen();
 
 	printf("\nHello from userland!\n");
 	return 0;
@@ -94,7 +99,7 @@ int32_t userland_main(int argc, char *argv[]) {
 	printf("\nBye-bye!");
 
 	/*
-	RAINBOWW
+	//RAINBOWW
 	char *video = (char *)0xB8000;
 	for(int i = 1; i < (80*25*2)-1; i += 2) {
 		video[i] = (char)i;
@@ -104,7 +109,8 @@ int32_t userland_main(int argc, char *argv[]) {
 	for(int i = 0; message[i] != 0; i++) {
 		video[i] = message[i];
 		video++;
-	}*/
+	}
+	*/
 	return 0;
 }
 

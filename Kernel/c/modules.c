@@ -12,11 +12,13 @@ int32_t runCodeModule() {
 	}
 	running = 1;
 	int32_t result;
-	ncPrintHex(CODE_MODULE_ADDR);
+	/*ncPrintHex(CODE_MODULE_ADDR);
 	ncPrintChar('\n');
-	ncPrintHex(*(uint64_t *)CODE_MODULE_ADDR);
-	while(1);
+	ncPrintHex(*(uint64_t *)CODE_MODULE_ADDR);*/
 	result = ((EntryPoint)CODE_MODULE_ADDR)();
+	/*ncPrint("Code module returned ");
+	ncPrintDec(result);
+	while(1);*/
 	running = 0;
 	return result;
 }

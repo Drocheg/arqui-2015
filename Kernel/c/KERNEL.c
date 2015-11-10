@@ -47,6 +47,7 @@ void * initializeKernelBinary()
 
 int kernel_main(int argc, char *argv[])
 {	
+
 	ncClear();
 	ncPrint("Welcome to the kernel!\n");
 	setInterrupt(0x20, (uint64_t)&int20Receiver);

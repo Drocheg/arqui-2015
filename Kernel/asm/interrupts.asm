@@ -43,12 +43,11 @@ int80Receiver:
 	push r13
 	push r15
 
-	cmp rdi, 32
-	je .end
+	;cmp rdi, 32		;TODO figure out who the hell is calling this
+	;je .end
 	;Parameter registers shouldn't have been modified
 	call int80Handler
 	
-	.end:
 	;Undo stack frame
 	pop r15
 	pop r13
