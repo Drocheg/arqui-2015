@@ -73,7 +73,7 @@ char processScanCode(uint8_t scanCode) {
 		}
 	}
 	*/
-	return ascii;	//Unknown, probably 0
+	return ascii;
 }
 
 //Modifies appropriate flags. Returns 1 if provided scan code
