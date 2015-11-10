@@ -16,6 +16,9 @@ uint8_t soundBufferIsFull() {
 	return soundRIndex == soundWIndex+1 || (soundRIndex == 0 && soundWIndex == SOUND_BUFF_SIZE-1);
 }
 
+/**
+Encola en el buffer de sonido, en caso de haber espacio, el sonido con su tiempo correspondiente. 
+*/
 uint8_t offerSound(uint32_t sound, uint32_t time) {
 	if(soundBufferIsFull()) {
 		ncPrint("sFull");
@@ -29,6 +32,10 @@ uint8_t offerSound(uint32_t sound, uint32_t time) {
 	return 1;
 }
 
+/**
+Reproduce la cancion si el buffer no esta vacio y le baja en 1 al de tiempo correspondiente.
+Avanza en el buffer en caso de llegar el tiempo a 0. 
+*/
 void decreaseTimer() {
 	if(noSound()) return;
 	playSound(soundQueue[soundRIndex]);
@@ -41,7 +48,12 @@ void decreaseTimer() {
 	}
 }
 
-void playSound(uint32_t nFrequence) { //http://wiki.osdev.org/PC_Speaker
+/**
+Le pone un nuevo "countdown" al puerto 0x42 para que el speaker reproduzca un sonido distinto y
+pone los ultimos 2 bits en 1 para que se reproduzca o simplemente los pone en 0 si recibio frecuencia 0.
+Ver http://wiki.osdev.org/PC_Speaker para más informacion. 
+*/
+void playSound(uint32_t nFrequence) { 
 	uint32_t Div;
 	uint8_t tmp;
 	if(nFrequence){

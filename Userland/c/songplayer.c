@@ -15,7 +15,10 @@ ejemplo:     cant=2             |f1              |t1       |f2              |t2
 00000000000000000000000000000010 0000000100000101 00001010 0000001000001011 00001010
 */
 
-
+/**
+Encola en el buffer de sonido, mediante int80, los sonidos con sus tiempos de la cancion
+cargada en el modulo de datos. 
+*/
 void playSong() {
 	char *songData;
 	songData = (char *) _int80(OPENDATAMODULE, 0, 0, 0);
