@@ -1,21 +1,26 @@
 include Makefile.inc
 
-SOURCES=$(wildcard c/*.c)
-OBJECTS=$(SOURCES:.c=.o) $(wildcard ../Common/c/*.o)
-
-all: $(OBJECTS) codeModule dataModule
-
-codeModule:
-	cd CodeModule; make
-
-dataModule:
-	cd Songmaker; make
+MODULE=userland.bin
+ASMSOURCES= asm/interrupts.asm
+SOURCES= c/USERLAND.c c/piano.c c/songplayer.c c/terminal.c c/usrlib.c ../Common/c/scanCodes.c ../Common/c/stdlib.c
+ASMOBJECTS= asm/interrupts.o
+COBJECTS=c/USERLAND.o c/piano.o c/songplayer.o c/terminal.o c/usrlib.o ../Common/c/scanCodes.o ../Common/c/stdlib.o
 
 %.o: %.c
-	$(GCC) $(GCCFLAGS) -I./include -I../Common/include -c $< -o $@
+	$(GCC) -c $(GCCFLAGS) -I./include -I../Common/include/ $< -o $@
+
+%.o: %.asm
+	$(ASM) $(ASMFLAGS) $< -o $@
+
+all: $(USER) songmaker
+
+$(USER): $(ASMOBJECTS) $(COBJECTS)
+	$(LD) -T userland.ld $(ASMOBJECTS) $(COBJECTS) -o $(MODULE)
+
+songmaker:
+	cd Songmaker; make
 
 clean:
-	cd CodeModule; make clean
-	rm -rf c/*.o *.o *.bin
+	rm -rf c/*.o asm/*.o *.o *.bin
 
 .PHONY: all clean

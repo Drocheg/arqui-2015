@@ -56,11 +56,12 @@ int main()
 
 	//masterPICmask(0x0);	//All interrupts
 	masterPICmask(0xFC);	//Keyboard and timer tick
+	//masterPICmask(0xFE);	//Timer tick only
 	//masterPICmask(0xFD);	//Keyboard only
+	//masterPICmask(0xFF);	//No interrupts
 	_sti();
 
-	//TODO run from code module
-	//runTerminal();
+	runCodeModule();
 
 	ncClear();
 	ncPrint("\n\n\n\n\n\n\n\n\n\n\n                    IT IS NOW SAFE TO TURN OFF YOUR COMPUTER");

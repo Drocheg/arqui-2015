@@ -14,6 +14,8 @@ void checkSound();
 
 int64_t int80Handler(uint64_t syscallID, uint64_t p1, uint64_t p2, uint64_t p3) {
 	uint64_t result;
+	ncPrintDec(syscallID);
+	ncNewline();
 	switch(syscallID) {
 		case 0:	//Exit
 			result = 1;

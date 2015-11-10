@@ -3,8 +3,6 @@
 #include <usrlib.h>
 #include <scanCodes.h>
 
-#include "../../Kernel/include/speaker.h"
-
 void piano() {
 	clearScreen();
 	printf("                                 PIANO v1.0\n\n");
@@ -15,13 +13,13 @@ void piano() {
 		}
 		if(number>=16 && number<28){
 			//TODO offer notes via syscalls
-			offerNote(number-16,4,2);
+			//offerNote(number-16,4,2);
 		}
 		if(number>=30 && number<42){
-			offerNote(number-30,5,2);
+			//offerNote(number-30,5,2);
 		}
 		if(number>=43 && number<55){
-			offerNote(number-43,6,2);
+			//offerNote(number-43,6,2);
 		}
 		else
 		{

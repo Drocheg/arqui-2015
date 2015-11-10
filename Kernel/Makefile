@@ -1,13 +1,13 @@
 include Makefile.inc
 
-KERNEL=kernel.bin
-SOURCES=$(wildcard c/*.c)
-SOURCES_ASM=$(wildcard asm/*.asm)
-OBJECTS=$(SOURCES:.c=.o)
-OBJECTS_ASM=$(SOURCES_ASM:.asm=.o)
-OBJECTS_COMMON=$(wildcard ../Common/c/*.o)
-OBJECTS_ASM_COMMON=$(wildcard ../Common/asm/*.o)
-LOADERSRC=loader.asm
+COMMON = ../Common/c/scanCodes.c ../Common/c/stdlib.c
+KERNEL= kernel.bin
+SOURCES= c/idt.c c/KERNEL.c c/lib.c c/modules.c c/video.c c/interruptHandlers.c c/keyboard.c c/moduleLoader.c c/speaker.c
+SOURCES_ASM= asm/interrupts.asm asm/libasm.asm
+OBJECTS= c/idt.o c/KERNEL.o c/lib.o c/modules.o c/video.o c/interruptHandlers.o c/keyboard.o c/moduleLoader.o c/speaker.o
+OBJECTS_ASM= asm/interrupts.o asm/libasm.o
+OBJECTS_COMMON=../Common/c/scanCodes.o ../Common/c/stdlib.o
+LOADERSRC= loader.asm
 
 LOADEROBJECT=$(LOADERSRC:.asm=.o)
 STATICLIBS=
@@ -15,7 +15,7 @@ STATICLIBS=
 all: $(KERNEL)
 
 $(KERNEL): $(LOADEROBJECT) $(COMMON) $(OBJECTS) $(STATICLIBS) $(OBJECTS_ASM)
-	$(LD) $(LDFLAGS) -T kernel.ld -o $(KERNEL) $(LOADEROBJECT) $(OBJECTS_COMMON) $(OBJECTS_ASM_COMMON) $(OBJECTS) $(OBJECTS_ASM) $(STATICLIBS)
+	$(LD) $(LDFLAGS) -T kernel.ld -o $(KERNEL) $(LOADEROBJECT) $(OBJECTS_COMMON) $(OBJECTS) $(OBJECTS_ASM) $(STATICLIBS)
 
 %.o: %.c
 	$(GCC) $(GCCFLAGS) -I./include -I../Common/include -c $< -o $@
