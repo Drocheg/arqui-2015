@@ -144,3 +144,19 @@ void ncScrollLines(uint8_t lines) {
 		video[i] = 0;
 	}
 }
+
+//Modifies the color bytes of the video screen
+void ncRAINBOWWWWWW() {
+	uint8_t *v = video;
+	int i;
+	for(i = 1; i < (80*25*2)-1; i += 2) {
+		v[i] = (char)i;
+	}
+	v = video + (80*2*12) + (27*2);
+	//Print in the middle of the screen
+	char *message = "TASTE THE RAINBOWWWWWWWWWW";
+	for(i = 0; message[i] != 0; i++) {
+		*v = message[i];
+		v += 2;
+	}
+}

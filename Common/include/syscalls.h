@@ -8,6 +8,7 @@
 #define SPEAKER 5
 #define OPENDATAMODULE 6
 #define RUNCODEMODULE 7
-#define REBOOT 8
+#define RAINBOW 8
+#define REBOOT 9
 
 #endif

@@ -167,17 +167,5 @@ void help() {
 }
 
 void rainbow() {
-	//TODO move?
-	//Este manejo de video debería estar en kernel, está acá unicamente para simplificar el código
-	//(además es una función ridícula, no merece la dedicación de un syscall)
-	char *video = (char *)0xB8000;
-	for(int i = 1; i < (80*25*2)-1; i += 2) {
-		video[i] = (char)i;
-	}
-	video = video + (80*2*12) + (30*2);
-	char *message = "TASTE THE RAINBOWWWW";
-	for(int i = 0; message[i] != 0; i++) {
-		video[i] = message[i];
-		video++;
-	}
+	_int80(RAINBOW, 0, 0, 0);
 }

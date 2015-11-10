@@ -22,5 +22,6 @@ songmaker:
 
 clean:
 	rm -rf c/*.o asm/*.o *.o *.bin
+	cd Songmaker; make clean
 
 .PHONY: all clean

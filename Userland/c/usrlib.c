@@ -42,7 +42,7 @@ void reboot() {
 }
 
 void print(const char *str) {
-	_int80(SYSWRITE, STDOUT, str, strlen(str));
+	_int80(SYSWRITE, STDOUT, (uint64_t)str, strlen(str));
 }
 
 void printNum(uint64_t num) {
