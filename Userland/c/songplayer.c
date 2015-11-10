@@ -2,6 +2,7 @@
 #include <usrlib.h>
 #include <syscalls.h>
 #include <fileDescriptors.h>
+#include <interrupts.h>
 
 /*
 FORMATO DE CANCIONES:
@@ -26,10 +27,10 @@ void playSong() {
 	uint8_t time;
 	
 	clearScreen();
-	printf("                   I shall now play you the song of my people\n");
+	print("                   I shall now play you the song of my people\n");
 	while(n > 0) {
-		freq = *((uint16_t *)songData);
-		songData = songData+2;
+		freq = *((uint32_t *)songData);
+		songData = songData+4;
 		time = *((uint8_t *)songData);
 		songData = songData+1;
 	  	_int80(SPEAKER, freq, time, 0);

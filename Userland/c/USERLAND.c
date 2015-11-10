@@ -12,6 +12,9 @@
 extern char bss;
 extern char endOfBinary;
 static int bssCheck = 0;
+static const int MAJOR_VER = 1;
+static const int MINOR_VER = 0;
+static int EXIT = 0;
 
 typedef struct
 {
@@ -29,8 +32,8 @@ void runCommand(char *cmd);
 void dumpDataModule();
 void rainbow();
 void * memset(void * destiny, int32_t c, uint64_t length);
+void printVer();
 
-static int done = 0;
 static command commands[] = {
 	{"beep", beep, "Makes a beep using the PC speaker"},
 	{"clear", clearScreen, "Clears the screen"},
@@ -47,22 +50,20 @@ static command commands[] = {
 
 
 int32_t userland_main(int argc, char *argv[]) {
-	//Clean BSS
-	memset(&bss, 0, &endOfBinary - &bss);
-	if(bssCheck != 0) {	//Improper BSS setup
+	memset(&bss, 0, &endOfBinary - &bss);	//Clean BSS
+	if(bssCheck != 0) {						//Improper BSS setup
 		return -1;
 	}
 
 	clearScreen();
 	char buffer[100];
-	int majorVer = 1, minorVer = 0;
-	vargs la = {2, (void *[2]) {&majorVer, &minorVer}};
-	printf2("Terminal v%i.%i\n", &la);
-	printf("To see available commands, type help\n");
-	while(!done) {
+	printVer();
+	print("\nTo see available commands, type help\n");
+	//Process input. No "scanf" or anything of the sort because input is treated especially
+	while(!EXIT) {
 		uint8_t index = 0;
 		uint8_t c;
-		printf(">_");
+		print(">_");
 		while((c = getchar()) != '\n') {
 			if(c != 0) {					//Recognized key, print it and save it
 				if(c == '\b') {				//Entered backspace
@@ -82,13 +83,13 @@ int32_t userland_main(int argc, char *argv[]) {
 			}
 		}
 		buffer[index] = 0;					//Entry finished, terminate with null
-		printf("\n");
+		print("\n");
 		runCommand(buffer);
 		if(!streql(buffer, "clear")) {
-			printf("\n");
+			print("\n");
 		}
 	}
-	printf("\nBye-bye!");
+	print("\nBye-bye!");
 	return 0;
 }
 
@@ -100,6 +101,13 @@ void * memset(void * dest, int32_t c, uint64_t length) {
 		dst[length] = chr;
 
 	return dest;
+}
+
+void printVer(const char *str) {
+	print("Terminal V");
+	printNum(MAJOR_VER);
+	print(".");
+	printNum(MINOR_VER);
 }
 
 void beep() {
@@ -117,40 +125,50 @@ void runCommand(char *cmd) {
 		}
 	}
 	if(!found) {
-		printf("No such command. Try running help");
+		print("No such command. Try running help");
 	}
 }
 
 void exit() {
-	done = 1;
+	EXIT = 1;
 }
 
 void sayHello() {
-	printf("\nHello!\n");
+	print("\nHello!\n");
 }
 
 void jalp() {
 	clearScreen();
-	printf("Iu asked for jalp frend? Jier is sam jalp:\n");
-	printf("Aveilabel comandz:\n");
+	print("Iu asked for jalp frend? Jier is sam jalp:\n");
+	print("Aveilabel comandz:\n");
 	for(int i = 0; i < sizeof(commands)/sizeof(command); i++) {
-		printf("    ");
-		printf(commands[i].name);
-		printf(" (jau du iu pronaunz dat?)");
-		printf("\n");
+		print("    ");
+		print(commands[i].name);
+		print(" (jau du iu pronaunz dat?)");
+		print("\n");
 	}
 }
 
 void help() {
 	clearScreen();
-	printf("Available commands:\n");
+	print("Available commands:\n");
 	for(int i = 0; i < sizeof(commands)/sizeof(command); i++) {
+		print("    ");
+		print(commands[i].name);
+		print(" - ");
+		print(commands[i].help);
+		/*
+		//Using var args:
 		vargs a = {2, (void *[2]) {commands[i].name, commands[i].help}};
-		printf2("    %s - %s\n", &a);
+		printf("    %s - %s\n", &a);
+		*/
 	}
 }
 
 void rainbow() {
+	//TODO move?
+	//Este manejo de video debería estar en kernel, está acá unicamente para simplificar el código
+	//(además es una función ridícula, no merece la dedicación de un syscall)
 	char *video = (char *)0xB8000;
 	for(int i = 1; i < (80*25*2)-1; i += 2) {
 		video[i] = (char)i;

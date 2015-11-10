@@ -41,50 +41,19 @@ void reboot() {
 	_int80(REBOOT, 0, 0, 0);
 }
 
-void printf(const char *format, ...) {
-	char **arg = (char **) &format;
-	int c;
-	char buf[20];
-
-	arg++;
-	while((c = *format++) != 0) {
-		if (c != '%') {
-			putchar(c);
-		}
-		else {
-			char *p;
-			c = *format++;
-			switch (c) {
-				case 'd':
-				case 'x':
-					intToStrBase(*((int *) arg++), buf, (c == 'd' ? 10 : 16));
-					p = buf;
-					goto STRING;
-					break;
-
-				case 'c':
-					putchar(**arg++);
-					break;
-
-				case 's':
-					p = *arg++;
-					if (! p)
-						p = "(null)";
-
-					STRING:
-					while (*p)
-						putchar(*p++);
-					break;
-
-				default:
-					putchar(*((int *) arg++));
-					break;
-			}
-		}
+void print(const char *str) {
+	while(*str != 0) {
+		putchar(*str++);
 	}
 }
 
-void printf2(const char *format, vargs *args) {		//TODO decide whether to use this version or not
+void printNum(uint64_t num) {
+	char buff[20];
+	intToStr(num, buff);
+	print(buff);
+}
+
+void printf(const char *format, vargs *args) {
 	int c;
 	char buf[20];
 
@@ -97,7 +66,6 @@ void printf2(const char *format, vargs *args) {		//TODO decide whether to use th
 		p++;
 	}
 	if(argc != args->count) {
-		fwrite(STDERR, "Incompatible parameter count for printf", 39);
 		return;
 	}
 
@@ -202,16 +170,5 @@ void printf2(const char *format, vargs *args) {		//TODO decide whether to use th
 					break;
 			}
 		}
-	}
-}
-
-//Buff should be NULL TERMINATED
-void scanf(char format, char *buff) {
-	if(format != 's' /*&& format != 'd'*/) return;	//TODO support other formats
-	
-	int len = strlen(buff);
-	fread(STDIN, buff, len);
-	if(format == 'd') {
-		//Magic?
 	}
 }

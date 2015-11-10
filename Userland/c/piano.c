@@ -3,6 +3,7 @@
 #include <usrlib.h>
 #include <scanCodes.h>
 #include <syscalls.h>
+#include <interrupts.h>
 
 
 static int sonidos[][8] = {
@@ -23,8 +24,8 @@ void offerNote(uint8_t note, uint8_t octave, uint32_t time);
 
 void piano() {
 	clearScreen();
-	printf("                                 PIANO v1.0\n");
-	printf("                              Press ESC to exit");
+	print("                                 PIANO v1.0\n");
+	print("                              Press ESC to exit");
 	while(1){
 		int number = getscancode();
 		if(decodeScanCode(number) == '\e') {	//Escape

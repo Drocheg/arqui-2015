@@ -14,18 +14,16 @@ char getchar();
 
 uint8_t getscancode();
 
-void printf(const char *format, ...);
-
 void scroll();
 
 void clearScreen();
 
 void reboot();
 
-//void scanf(char format, char *buff); Incomplete
+void print(const char *str);
 
-void printf2(const char *format, vargs *args);
+void printNum(uint64_t num);
 
-int64_t _int80(uint64_t syscallID, int64_t p1, int64_t p2, int64_t p3);
+void printf(const char *format, vargs *args);
 
 #endif
