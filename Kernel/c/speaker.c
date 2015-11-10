@@ -6,20 +6,6 @@
 static uint32_t soundQueue[SOUND_BUFF_SIZE] = {0};
 static uint32_t soundTimeQueue[SOUND_BUFF_SIZE] = {0};
 static int soundRIndex = 0, soundWIndex = 0;
-/*static int sonidos[][8] = {
-	{16,33,65,131,262,523,1046,2093},
-	{17,35,69,139,277,554,1109,2217},
-	{18,37,73,147,294,587,1175,2349},
-	{19,39,78,155,311,622,1244,2489},
-	{21,41,82,165,330,659,1328,2637},
-	{22,44,87,175,349,698,1397,2794},
-	{23,46,92,185,370,740,1480,2960},
-	{24,49,98,196,392,784,1568,3136},
-	{26,52,04,208,415,831,1661,3322},
-	{27,55,10,220,440,880,1760,3520},
-	{29,58,16,233,466,932,1865,3729},
-	{31,62,23,245,494,988,1975,3951}};*/
-
 
 uint8_t noSound() {
 
@@ -35,7 +21,7 @@ uint8_t offerSound(uint32_t sound, uint32_t time) {
 		ncPrint("sFull");
 		return 0;
 	}
-	soundTimeQueue[soundWIndex] = time+1;  //parche magico. Podria hacer el menor?
+	soundTimeQueue[soundWIndex] = time+1;
 	soundQueue[soundWIndex++] = sound;
 	if(soundWIndex == SOUND_BUFF_SIZE) {
 		soundWIndex = 0;
@@ -44,7 +30,7 @@ uint8_t offerSound(uint32_t sound, uint32_t time) {
 }
 
 void decreaseTimer() {
-	if(noSound()) ncPrint("No se deberia decreaseTimer si esta vacio el buffer");
+	if(noSound()) return;
 	playSound(soundQueue[soundRIndex]);
 	soundTimeQueue[soundRIndex]--;
 	if(soundTimeQueue[soundRIndex]<=0){
@@ -55,7 +41,7 @@ void decreaseTimer() {
 	}
 }
 
-void playSound(uint32_t nFrequence) {
+void playSound(uint32_t nFrequence) { //http://wiki.osdev.org/PC_Speaker
 	uint32_t Div;
 	uint8_t tmp;
 	if(nFrequence){
@@ -83,11 +69,3 @@ void soundOff() {
 	outb(0x61, tmp);
 }
 
-//Make a beep
-void beep() {
-	playSound(1000);
- 	// timer_wait(10);
-	for(int i=0; i<10000000; i++);
-		soundOff();
-        //set_PIT_2(old_frequency);
-}

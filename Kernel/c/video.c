@@ -84,7 +84,6 @@ void ncBackspace() {
 	if(currentVideo > video) {
 		currentVideo -= 2;		//Goes back if necessary
 	}
-	//*(currentVideo+1) = 0;	//Resets color
 	*currentVideo = 0;		//Clears char
 }
 

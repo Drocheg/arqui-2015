@@ -36,8 +36,8 @@ void piano() {
 		if(number>=30 && number<42){
 			offerNote(number-30,5,2);
 		}
-		if(number>=43 && number<55){
-			offerNote(number-43,6,2);
+		if(number>=44 && number<55){
+			offerNote(number-44,6,2);
 		}
 
 	}
@@ -45,11 +45,6 @@ void piano() {
 }
 
 void offerNote(uint8_t note, uint8_t octave, uint32_t time){
-  	//ncPrintDec(note);
-  	//ncPrintDec(octave);
-  	//ncPrint(" : ");
-	uint32_t nFrequence = sonidos[note][octave];
-	//ncPrintDec(nFrequence);
-  	//ncPrint(" ");
+  	uint32_t nFrequence = sonidos[note][octave];
   	_int80(SPEAKER, nFrequence, time, 0);
 }
