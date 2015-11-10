@@ -22,6 +22,11 @@ static int notes[][8] = {
 
 void offerNote(uint8_t note, uint8_t octave, uint32_t time);
 
+/**
+Funcion que entra en el "estado" piano. Reproduce sonidos precargados en una matriz,
+que son 3 octavas enteras, al apretar ciertas teclas.
+Espera hasta que se toque la tecla de codigo 'e' (Esc). 
+*/
 void piano() {
 	clearScreen();
 	print("                                 PIANO v1.0\n");
